@@ -22,7 +22,8 @@ const syncAndSeed = async () => {
   const productsArr = [];
   for (let i = 0; i < 10; i++) {
     const name = faker.name.firstName();
-    const imgUrl = faker.image.animals();
+    const randomNumber = Math.floor(Math.random() * 1000);
+    const imgUrl = `${faker.image.animals()}?random=${randomNumber}`;
     const price = faker.commerce.price(10, 1000);
     const description = faker.word.adjective();
 
