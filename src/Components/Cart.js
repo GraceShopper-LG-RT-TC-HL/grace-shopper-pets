@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../store';
 import { Link } from 'react-router-dom';
+import OrderForm from './OrderForm';
 
 const Cart = ()=> {
   const { cart } = useSelector(state => state);
@@ -14,6 +15,7 @@ const Cart = ()=> {
           JSON.stringify(cart, null, 2)
         }
       </pre>
+      <OrderForm />
     </div>
   );
 };
