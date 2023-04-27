@@ -10,9 +10,7 @@ const Cart = ()=> {
     <div>
       <h1>Cart</h1>
       <pre>
-        {
-          JSON.stringify(cart, null, 2)
-        }
+        { JSON.stringify(cart, null, 2) }
       </pre>
     </div>
   );
