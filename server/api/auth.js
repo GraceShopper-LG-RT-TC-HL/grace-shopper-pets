@@ -12,6 +12,14 @@ app.post('/', async (req, res, next) => {
   }
 });
 
+app.post('/users', async (req, res, next) => {
+  try {
+    res.send(await User.create(req.body));
+  } catch (ex) {
+    next(ex);
+  }
+});
+
 app.get('/', async (req, res, next) => {
   try {
     res.send(await User.findByToken(req.headers.authorization));
