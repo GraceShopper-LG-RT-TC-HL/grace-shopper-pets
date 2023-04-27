@@ -40,7 +40,6 @@ app.put("/cart", async (req, res, next) => {
   }
 });
 
-//route to get past orders
 app.get('/', async(req, res, next) => {
   try{
     const user = await User.findByToken(req.headers.authorization);
