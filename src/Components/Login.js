@@ -16,7 +16,6 @@ const Login = () => {
 
   const login = ev => {
     ev.preventDefault();
-    console.log(ev);
     dispatch(attemptLogin(credentials));
   };
 

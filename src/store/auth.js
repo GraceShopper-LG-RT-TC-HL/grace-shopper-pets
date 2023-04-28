@@ -12,7 +12,7 @@ export const logout = () => {
 };
 
 export const loginWithToken = () => {
-  return async dispatch => {
+  return async (dispatch) => {
     const token = window.localStorage.getItem('token');
     if (token) {
       const response = await axios.get('/api/auth', {
@@ -25,19 +25,33 @@ export const loginWithToken = () => {
   };
 };
 
-export const attemptLogin = credentials => {
-  return async dispatch => {
+export const attemptLogin = (credentials) => {
+  return async (dispatch) => {
     const response = await axios.post('/api/auth', credentials);
     window.localStorage.setItem('token', response.data);
     dispatch(loginWithToken());
   };
 };
 
-export const createUser = credentials => {
-  return async dispatch => {
+export const createUser = (credentials) => {
+  return async (dispatch) => {
     const newUser = await axios.post('/api/auth/users', credentials);
     if (newUser) {
       dispatch(attemptLogin(credentials));
+    }
+  };
+};
+
+export const updateUser = (user) => {
+  return async (dispatch) => {
+    const token = window.localStorage.getItem('token');
+    if (token) {
+      const response = await axios.put('/api/auth', user, {
+        headers: {
+          authorization: token,
+        },
+      });
+      dispatch({ type: 'SET_AUTH', auth: response.data });
     }
   };
 };
