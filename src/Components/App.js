@@ -3,6 +3,7 @@ import Home from './Home';
 import Login from './Login';
 import Cart from './Cart';
 import Orders from './Orders';
+import Products from './Products';
 import { useSelector, useDispatch } from 'react-redux';
 import { loginWithToken, fetchCart } from '../store';
 import { Link, Routes, Route } from 'react-router-dom';
