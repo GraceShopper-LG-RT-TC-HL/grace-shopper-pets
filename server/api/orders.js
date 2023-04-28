@@ -52,6 +52,7 @@ app.get('/', async(req, res, next) => {
         isCart: false
       }}
       );
+    res.send(orders);
   }
   catch(ex){
     next(ex);
