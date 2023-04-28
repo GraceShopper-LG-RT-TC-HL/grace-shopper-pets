@@ -6,7 +6,7 @@ import Profile from './Profile';
 import Orders from './Orders';
 import Products from './Products';
 import { useSelector, useDispatch } from 'react-redux';
-import { loginWithToken, fetchCart } from '../store';
+import { loginWithToken, fetchCart, fetchProducts } from '../store';
 import { Link, Routes, Route } from 'react-router-dom';
 
 const App = () => {
@@ -21,6 +21,11 @@ const App = () => {
       dispatch(fetchCart());
     }
   }, [auth]);
+
+  useEffect(() => {
+    dispatch(fetchProducts());
+  }, []);
+
   return (
     <div>
       <h1>Acme Shopping</h1>
