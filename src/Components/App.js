@@ -26,16 +26,15 @@ const App = () => {
       {!!auth.id && (
         <div>
           <nav>
-            <Link to='/'>Home</Link>
+            <Link to="/">Home</Link>
+            <Link to="/products">Products</Link>
             <Link to='/orders'>Orders</Link>
-            <Link to='/cart'>Cart</Link>
+            <Link to="/cart">Cart</Link>
           </nav>
           <Routes>
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/products" element={<Products />} />
             <Route path='/orders' element={<Orders />} />
-            <Route
-              path='/cart'
-              element={<Cart />}
-            />
           </Routes>
         </div>
       )}
