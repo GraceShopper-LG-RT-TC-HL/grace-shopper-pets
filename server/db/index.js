@@ -1,9 +1,9 @@
-const conn = require("./conn");
-const User = require("./User");
-const Product = require("./Product");
-const Order = require("./Order");
-const LineItem = require("./LineItem");
-const { faker } = require("@faker-js/faker");
+const conn = require('./conn');
+const User = require('./User');
+const Product = require('./Product');
+const Order = require('./Order');
+const LineItem = require('./LineItem');
+const { faker } = require('@faker-js/faker');
 
 Order.belongsTo(User);
 LineItem.belongsTo(Order);
@@ -13,10 +13,10 @@ LineItem.belongsTo(Product);
 const syncAndSeed = async () => {
   await conn.sync({ force: true });
   const [moe, lucy, larry, ethyl] = await Promise.all([
-    User.create({ username: "moe", password: "123" }),
-    User.create({ username: "lucy", password: "123" }),
-    User.create({ username: "larry", password: "123" }),
-    User.create({ username: "ethyl", password: "123" }),
+    User.create({ username: 'moe', password: '123', isAdmin: true }),
+    User.create({ username: 'lucy', password: '123' }),
+    User.create({ username: 'larry', password: '123' }),
+    User.create({ username: 'ethyl', password: '123' }),
   ]);
 
   const productsArr = [];
@@ -46,7 +46,6 @@ const syncAndSeed = async () => {
     })
   );
 
-
   return {
     users: {
       moe,
@@ -62,8 +61,8 @@ const syncAndSeed = async () => {
 
 module.exports = {
   syncAndSeed,
-    User,
-    Product,
-    Order,
-    LineItem,
+  User,
+  Product,
+  Order,
+  LineItem,
 };

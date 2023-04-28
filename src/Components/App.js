@@ -5,6 +5,7 @@ import Cart from './Cart';
 import Profile from './Profile';
 import Orders from './Orders';
 import Products from './Products';
+import ControlPanel from './ControlPanel';
 import { useSelector, useDispatch } from 'react-redux';
 import { loginWithToken, fetchCart } from '../store';
 import { Link, Routes, Route } from 'react-router-dom';
@@ -25,7 +26,7 @@ const App = () => {
     <div>
       <h1>Acme Shopping</h1>
       {auth.id ? <Home /> : <Login />}
-      {!!auth.id && (
+      {!!auth.id && !auth.isAdmin && (
         <div>
           <nav>
             <Link to='/'>Home</Link>
@@ -49,6 +50,28 @@ const App = () => {
             <Route
               path='/orders'
               element={<Orders />}
+            />
+          </Routes>
+        </div>
+      )}
+      {!!auth.id && auth.isAdmin && (
+        <div>
+          <nav>
+            <Link to='/'>Home</Link>
+            <Link to='/products'>Products</Link>
+          </nav>
+          <Routes>
+            <Route
+              path='/profile'
+              element={<Profile />}
+            />
+            <Route
+              path='/'
+              element={<ControlPanel />}
+            />
+            <Route
+              path='/products'
+              element={<Products />}
             />
           </Routes>
         </div>
