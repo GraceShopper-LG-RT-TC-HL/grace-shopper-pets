@@ -2,9 +2,15 @@ body {
   font-family: verdana;
 }
 
+
 form {
   display: flex;
   flex-direction: column;
+}
+
+img {
+  width: 100%;
+  height: auto;
 }
 
 form > * {
@@ -13,5 +19,12 @@ form > * {
 
 nav {
   display: flex;
+  justify-content: space-around;
+}
+
+ul {
+  list-style-type: none;
+  display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
 }

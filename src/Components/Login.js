@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { attemptLogin, createUser } from '../store';
 import { useDispatch } from 'react-redux';
@@ -10,16 +11,16 @@ const Login = () => {
     password: '',
   });
 
-  const onChange = ev => {
+  const onChange = (ev) => {
     setCredentials({ ...credentials, [ev.target.name]: ev.target.value });
   };
 
-  const login = ev => {
+  const login = (ev) => {
     ev.preventDefault();
     dispatch(attemptLogin(credentials));
   };
 
-  const create = ev => {
+  const create = (ev) => {
     ev.preventDefault();
     dispatch(createUser(credentials));
   };

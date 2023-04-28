@@ -1,46 +1,69 @@
-const conn = require('./conn');
-const User = require('./User');
-const Product = require('./Product');
-const Order = require('./Order');
-const LineItem  = require('./LineItem');
+const conn = require("./conn");
+const User = require("./User");
+const Product = require("./Product");
+const Order = require("./Order");
+const LineItem = require("./LineItem");
+const { faker } = require("@faker-js/faker");
 
 Order.belongsTo(User);
 LineItem.belongsTo(Order);
 Order.hasMany(LineItem);
 LineItem.belongsTo(Product);
 
-const syncAndSeed = async()=> {
+const syncAndSeed = async () => {
   await conn.sync({ force: true });
-  const [moe, lucy, larry, foo, bar, bazz, ethyl] = await Promise.all([
-    User.create({ username: 'moe', password: '123' }),
-    User.create({ username: 'lucy', password: '123' }),
-    User.create({ username: 'larry', password: '123' }),
-    Product.create({ name: 'foo' }),
-    Product.create({ name: 'bar' }),
-    Product.create({ name: 'bazz' }),
-    User.create({ username: 'ethyl', password: '123' }),
+  const [moe, lucy, larry, ethyl] = await Promise.all([
+    User.create({ username: "moe", password: "123" }),
+    User.create({ username: "lucy", password: "123" }),
+    User.create({ username: "larry", password: "123" }),
+    User.create({ username: "ethyl", password: "123" }),
   ]);
 
+  const productsArr = [];
+  for (let i = 0; i < 10; i++) {
+    const name = faker.name.firstName();
+    const randomNumber = Math.floor(Math.random() * 1000);
+    const imgUrl = `${faker.image.animals()}?random=${randomNumber}`;
+    const price = faker.commerce.price(10, 1000);
+    const description = faker.word.adjective();
+
+    productsArr.push(Product.create({ name, imgUrl, price, description }));
+  }
+
+  const products = await Promise.all(productsArr);
+
+  // This code creates a cart, then creates line items for each product and adds them to the cart.
+
   const cart = await ethyl.getCart();
-  await ethyl.addToCart({ product: bazz, quantity: 3});
-  await ethyl.addToCart({ product: foo, quantity: 2});
+
+  const lineItems = await Promise.all(
+    products.map((product) => {
+      return LineItem.create({
+        productId: product.id,
+        orderId: cart.id,
+        quantity: Math.floor(Math.random() * 10) + 1,
+      });
+    })
+  );
+
+
   return {
     users: {
       moe,
       lucy,
-      larry
+      larry,
+      ethyl,
     },
-    products: {
-      foo,
-      bar,
-      bazz
-    }
+    products,
+    cart,
+    lineItems,
   };
 };
 
-
 module.exports = {
   syncAndSeed,
-  User,
-  Product
+    User,
+    Product,
+    Order,
+    LineItem,
 };
