@@ -20,6 +20,16 @@ app.post('/users', async (req, res, next) => {
   }
 });
 
+app.put('/', async (req, res, next) => {
+  try {
+    const user = await User.findByToken(req.headers.authorization);
+    await user.update(req.body);
+    res.send(user);
+  } catch (ex) {
+    next(ex);
+  }
+});
+
 app.get('/', async (req, res, next) => {
   try {
     res.send(await User.findByToken(req.headers.authorization));
