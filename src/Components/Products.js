@@ -1,51 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { logout } from '../store';
-import { Link } from 'react-router-dom';
-import {
-  fetchProducts,
-  addToCart,
-  removeFromCart,
-  updateLineItem,
-} from '../store';
+import { addToCart } from '../store';
 
 const Products = () => {
   const { products } = useSelector((state) => state);
-  const { cart } = useSelector((state) => state);
-  const { lineItems } = useSelector((state) => state);
-  const [productQuantities, setProductQuantities] = useState({});
-
   const dispatch = useDispatch();
 
-  const handleProduct = (product) => {
-    try {
-      const lineItem = cart.lineItems.find(
-        (lineItem) => lineItem.productId === product.id
-      );
-      const quantity = productQuantities[product.id];
-      if (lineItem) {
-        dispatch(
-          updateLineItem({
-            ...lineItem,
-            quantity: parseInt(quantity),
-          })
-        );
-      } else if (quantity === 0) {
-        dispatch(removeFromCart(product));
-      } else {
-        console.log('product', product);
-        dispatch(addToCart({ ...product, quantity: parseInt(quantity) }));
-      }
-    } catch (ex) {
-      console.log(ex);
-    }
+  const [quantities, setQuantities] = useState({});
+
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product, quantities[product.id]));
+    setQuantities({ ...quantities, [product.id]: 0 });
   };
 
-  const handleQuantityChange = (productId, value) => {
-    setProductQuantities({
-      ...productQuantities,
-      [productId]: value,
-    });
+  const handleQuantityChange = (productId, quantity) => {
+    setQuantities({ ...quantities, [productId]: quantity });
   };
 
   return (
@@ -53,26 +22,20 @@ const Products = () => {
       <h1>Products</h1>
       <ul>
         {products.map((product) => {
+          const quantity = quantities[product.id] || 0;
           return (
             <li key={product.id}>
               <h2>{product.name}</h2>
               <h3>${product.price}</h3>
               <h4>{product.description}</h4>
-              <form
-                onSubmit={(event) => {
-                  event.preventDefault();
-                  handleProduct(product);
-                }}
-              >
+              <form onSubmit={(e) => { e.preventDefault(); handleAddToCart(product) }}>
                 <input
                   type="number"
                   name={`quantity-${product.id}`}
                   min="0"
                   max="10"
-                  value={productQuantities[product.id] || 0}
-                  onChange={(ev) =>
-                    handleQuantityChange(product.id, ev.target.value)
-                  }
+                  value={quantity}
+                  onChange={(ev) => handleQuantityChange(product.id, Number(ev.target.value))}
                 />
                 <button type="submit">Add to Cart</button>
               </form>
