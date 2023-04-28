@@ -1,7 +1,9 @@
-import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { logout } from "../store";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../store';
+import { Link } from 'react-router-dom';
+import OrderForm from './OrderForm';
+
 
 const Cart = () => {
   const { cart } = useSelector((state) => state);
@@ -10,6 +12,7 @@ const Cart = () => {
     <div>
       <h1>Cart</h1>
       <pre>{JSON.stringify(cart, null, 2)}</pre>
+      <OrderForm />
     </div>
   );
 };

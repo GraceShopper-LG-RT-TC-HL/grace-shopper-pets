@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
-import Home from "./Home";
-import Login from "./Login";
-import Cart from "./Cart";
-import Products from "./Products";
-import { useSelector, useDispatch } from "react-redux";
-import { loginWithToken, fetchCart } from "../store";
-import { Link, Routes, Route } from "react-router-dom";
+import React, { useEffect } from 'react';
+import Home from './Home';
+import Login from './Login';
+import Cart from './Cart';
+import Orders from './Orders';
+import { useSelector, useDispatch } from 'react-redux';
+import { loginWithToken, fetchCart } from '../store';
+import { Link, Routes, Route } from 'react-router-dom';
 
 const App = () => {
   const { auth } = useSelector(state => state);
@@ -28,11 +28,13 @@ const App = () => {
           <nav>
             <Link to="/">Home</Link>
             <Link to="/products">Products</Link>
+            <Link to='/orders'>Orders</Link>
             <Link to="/cart">Cart</Link>
           </nav>
           <Routes>
             <Route path="/cart" element={<Cart />} />
             <Route path="/products" element={<Products />} />
+            <Route path='/orders' element={<Orders />} />
           </Routes>
         </div>
       )}

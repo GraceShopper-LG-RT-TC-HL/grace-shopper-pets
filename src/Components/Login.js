@@ -1,12 +1,14 @@
-import React, { useState } from "react";
-import { attemptLogin } from "../store";
-import { useDispatch } from "react-redux";
+
+import React, { useState } from 'react';
+import { attemptLogin, createUser } from '../store';
+import { useDispatch } from 'react-redux';
 
 const Login = () => {
   const dispatch = useDispatch();
+  const [changeForm, setChangeForm] = useState(true);
   const [credentials, setCredentials] = useState({
-    username: "",
-    password: "",
+    username: '',
+    password: '',
   });
 
   const onChange = (ev) => {
@@ -15,25 +17,37 @@ const Login = () => {
 
   const login = (ev) => {
     ev.preventDefault();
+    console.log(ev);
     dispatch(attemptLogin(credentials));
   };
+
+  const create = (ev) => {
+    ev.preventDefault();
+    dispatch(createUser(credentials));
+  };
+
   return (
     <div>
-      <h2>Login</h2>
-      <form onSubmit={login}>
+      <h2>
+        {changeForm ? 'Login ' : 'Create your account '}
+        <button onClick={() => setChangeForm(!changeForm)}>
+          {changeForm ? 'Create Account?' : 'Login'}
+        </button>
+      </h2>
+      <form onSubmit={changeForm ? login : create}>
         <input
-          placeholder="username"
+          placeholder='username'
           value={credentials.username}
-          name="username"
+          name='username'
           onChange={onChange}
         />
         <input
-          placeholder="password"
-          name="password"
+          placeholder='password'
+          name='password'
           value={credentials.password}
           onChange={onChange}
         />
-        <button>Login</button>
+        <button>{changeForm ? 'Login' : 'Create Account'}</button>
       </form>
     </div>
   );

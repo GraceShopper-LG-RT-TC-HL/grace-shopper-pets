@@ -35,6 +35,7 @@ const syncAndSeed = async () => {
   // This code creates a cart, then creates line items for each product and adds them to the cart.
 
   const cart = await ethyl.getCart();
+
   const lineItems = await Promise.all(
     products.map((product) => {
       return LineItem.create({
@@ -44,6 +45,7 @@ const syncAndSeed = async () => {
       });
     })
   );
+
 
   return {
     users: {
