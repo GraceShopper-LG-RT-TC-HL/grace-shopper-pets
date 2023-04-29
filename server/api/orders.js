@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express.Router();
 
-const { User, Order } = require('../db');
+const { User, Order, LineItem, Product } = require('../db');
 
 
 module.exports = app;
@@ -50,8 +50,18 @@ app.get('/', async(req, res, next) => {
       where: {
         userId: user.id,
         isCart: false
-      }}
+      },
+      include: {
+        model: LineItem,
+        include: [
+          {
+            model:Product
+          }
+        ]
+      }
+    }
       );
+    res.send(orders);
   }
   catch(ex){
     next(ex);

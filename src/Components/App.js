@@ -7,7 +7,7 @@ import Orders from './Orders';
 import Products from './Products';
 import ControlPanel from './ControlPanel';
 import { useSelector, useDispatch } from 'react-redux';
-import { loginWithToken, fetchCart } from '../store';
+import { loginWithToken, fetchCart, fetchOrders } from '../store';
 import { Link, Routes, Route } from 'react-router-dom';
 
 const App = () => {
@@ -20,6 +20,7 @@ const App = () => {
   useEffect(() => {
     if (auth.id) {
       dispatch(fetchCart());
+      dispatch(fetchOrders());
     }
   }, [auth]);
   return (
