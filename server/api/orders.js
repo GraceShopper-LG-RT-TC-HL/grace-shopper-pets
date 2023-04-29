@@ -1,12 +1,11 @@
-const express = require("express");
+const express = require('express');
 const app = express.Router();
 
 const { User, Order } = require('../db');
 
-
 module.exports = app;
 
-app.post("/", async (req, res, next) => {
+app.post('/', async (req, res, next) => {
   try {
     const user = await User.findByToken(req.headers.authorization);
     res.send(await user.createOrder());
@@ -15,7 +14,7 @@ app.post("/", async (req, res, next) => {
   }
 });
 
-app.get("/cart", async (req, res, next) => {
+app.get('/cart', async (req, res, next) => {
   try {
     const user = await User.findByToken(req.headers.authorization);
     res.send(await user.getCart());
@@ -24,7 +23,7 @@ app.get("/cart", async (req, res, next) => {
   }
 });
 
-app.post("/cart", async (req, res, next) => {
+app.post('/cart', async (req, res, next) => {
   try {
     const user = await User.findByToken(req.headers.authorization);
     res.send(await user.addToCart(req.body));
@@ -33,7 +32,7 @@ app.post("/cart", async (req, res, next) => {
   }
 });
 
-app.put("/cart", async (req, res, next) => {
+app.put('/cart', async (req, res, next) => {
   try {
     const user = await User.findByToken(req.headers.authorization);
     res.send(await user.removeFromCart(req.body));
@@ -42,18 +41,25 @@ app.put("/cart", async (req, res, next) => {
   }
 });
 
-app.get('/', async(req, res, next) => {
-  try{
+app.put('/cart/update', async (req, res, next) => {
+  try {
+    const user = await User.findByToken(req.headers.authorization);
+    res.send(await user.updateCart(req.body));
+  } catch (ex) {
+    next(ex);
+  }
+});
+
+app.get('/', async (req, res, next) => {
+  try {
     const user = await User.findByToken(req.headers.authorization);
     const orders = await Order.findAll({
-      
       where: {
         userId: user.id,
-        isCart: false
-      }}
-      );
-  }
-  catch(ex){
+        isCart: false,
+      },
+    });
+  } catch (ex) {
     next(ex);
   }
 });

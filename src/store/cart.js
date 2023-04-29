@@ -46,11 +46,12 @@ export const removeFromCart = (lineItem) => {
     dispatch({ type: 'SET_CART', cart: response.data });
   };
 };
+
 export const updateCart = ({ product, quantity }) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem('token');
     const response = await axios.put(
-      '/api/orders/cart',
+      '/api/orders/cart/update',
       { product, quantity },
       {
         headers: {
