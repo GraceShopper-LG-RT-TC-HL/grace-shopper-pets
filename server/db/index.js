@@ -1,9 +1,9 @@
-const conn = require("./conn");
-const User = require("./User");
-const Product = require("./Product");
-const Order = require("./Order");
-const LineItem = require("./LineItem");
-const { faker } = require("@faker-js/faker");
+const conn = require('./conn');
+const User = require('./User');
+const Product = require('./Product');
+const Order = require('./Order');
+const LineItem = require('./LineItem');
+const { faker } = require('@faker-js/faker');
 
 Order.belongsTo(User);
 LineItem.belongsTo(Order);
@@ -13,10 +13,10 @@ LineItem.belongsTo(Product);
 const syncAndSeed = async () => {
   await conn.sync({ force: true });
   const [moe, lucy, larry, ethyl] = await Promise.all([
-    User.create({ username: "moe", password: "123" }),
-    User.create({ username: "lucy", password: "123" }),
-    User.create({ username: "larry", password: "123" }),
-    User.create({ username: "ethyl", password: "123" }),
+    User.create({ username: 'moe', password: '123' }),
+    User.create({ username: 'lucy', password: '123' }),
+    User.create({ username: 'larry', password: '123' }),
+    User.create({ username: 'ethyl', password: '123' }),
   ]);
 
   const productsArr = [];
@@ -32,23 +32,18 @@ const syncAndSeed = async () => {
 
   const products = await Promise.all(productsArr);
 
-  // This code creates a cart, then creates line items for each product and adds them to the cart.
+
 
   let cart = await ethyl.getCart();
 
   const lineItems = await Promise.all(
     products.map((product) => {
-      return LineItem.create({
-        productId: product.id,
-        orderId: cart.id,
-        quantity: Math.floor(Math.random() * 10) + 1,
-      });
+      return ethyl.addToCart({ product, quantity: Math.floor(Math.random() * 10) });
     })
   );
-  
+
   let order = ethyl.createOrder();
   cart = await ethyl.getCart();
-  console.log('cart:', cart)
   
   const lineItems2 = await Promise.all(
     products.map((product) => {
@@ -61,7 +56,6 @@ const syncAndSeed = async () => {
   );
   
   order = ethyl.createOrder();
-  
   
   return {
     users: {
@@ -78,8 +72,8 @@ const syncAndSeed = async () => {
 
 module.exports = {
   syncAndSeed,
-    User,
-    Product,
-    Order,
-    LineItem,
+  User,
+  Product,
+  Order,
+  LineItem,
 };
