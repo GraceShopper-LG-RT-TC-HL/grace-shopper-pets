@@ -2,7 +2,6 @@ const express = require('express');
 const app = express.Router();
 const { Product } = require('../db');
 
-
 module.exports = app;
 
 app.get('/', async (req, res, next) => {
@@ -25,6 +24,7 @@ app.post('/', async (req, res, next) => {
   try {
     res.status(201).send(await Product.create(req.body));
   } catch (ex) {
+    console.log(ex);
     next(ex);
   }
 });
