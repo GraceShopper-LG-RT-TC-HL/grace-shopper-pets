@@ -95,6 +95,16 @@ User.prototype.removeFromCart = async function ({ product, quantityToRemove }) {
   return this.getCart();
 };
 
+User.prototype.updateCart = async function ({ product, quantity }) {
+  const cart = await this.getCart();
+  const lineItem = cart.lineItems.find((lineItem) => {
+    return lineItem.productId === product.id;
+  });
+  lineItem.quantity = quantity;
+  await lineItem.save();
+  return this.getCart();
+};
+
 User.addHook('beforeSave', async (user) => {
   if (user.changed('password')) {
     user.password = await bcrypt.hash(user.password, 5);
