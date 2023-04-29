@@ -3,6 +3,7 @@ const User = require('./User');
 const Product = require('./Product');
 const Order = require('./Order');
 const LineItem = require('./LineItem');
+const Coupon = require('./Coupon');
 const { faker } = require('@faker-js/faker');
 
 Order.belongsTo(User);
@@ -13,7 +14,7 @@ LineItem.belongsTo(Product);
 const syncAndSeed = async () => {
   await conn.sync({ force: true });
   const [moe, lucy, larry, ethyl] = await Promise.all([
-    User.create({ username: 'moe', password: '123' }),
+    User.create({ username: 'moe', password: '123', isAdmin: true }),
     User.create({ username: 'lucy', password: '123' }),
     User.create({ username: 'larry', password: '123' }),
     User.create({ username: 'ethyl', password: '123' }),
@@ -32,19 +33,20 @@ const syncAndSeed = async () => {
 
   const products = await Promise.all(productsArr);
 
-
-
   let cart = await ethyl.getCart();
 
   const lineItems = await Promise.all(
     products.map((product) => {
-      return ethyl.addToCart({ product, quantity: Math.floor(Math.random() * 10) });
+      return ethyl.addToCart({
+        product,
+        quantity: Math.floor(Math.random() * 10),
+      });
     })
   );
 
   let order = ethyl.createOrder();
   cart = await ethyl.getCart();
-  
+
   const lineItems2 = await Promise.all(
     products.map((product) => {
       return LineItem.create({
@@ -54,9 +56,9 @@ const syncAndSeed = async () => {
       });
     })
   );
-  
+
   order = ethyl.createOrder();
-  
+
   return {
     users: {
       moe,
@@ -76,4 +78,5 @@ module.exports = {
   Product,
   Order,
   LineItem,
+  Coupon,
 };

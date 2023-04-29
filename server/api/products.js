@@ -1,11 +1,11 @@
-const express = require("express");
+const express = require('express');
 const app = express.Router();
-const { Product } = require("../db");
+const { Product } = require('../db');
 
 
 module.exports = app;
 
-app.get("/", async (req, res, next) => {
+app.get('/', async (req, res, next) => {
   try {
     res.send(await Product.findAll());
   } catch (ex) {
@@ -13,7 +13,7 @@ app.get("/", async (req, res, next) => {
   }
 });
 
-app.get("/:id", async (req, res, next) => {
+app.get('/:id', async (req, res, next) => {
   try {
     res.send(await Product.findByPk(req.params.id));
   } catch (ex) {
@@ -21,7 +21,7 @@ app.get("/:id", async (req, res, next) => {
   }
 });
 
-app.post("/", async (req, res, next) => {
+app.post('/', async (req, res, next) => {
   try {
     res.status(201).send(await Product.create(req.body));
   } catch (ex) {
@@ -29,7 +29,7 @@ app.post("/", async (req, res, next) => {
   }
 });
 
-app.delete("/:id", async (req, res, next) => {
+app.delete('/:id', async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.id);
     await product.destroy();
@@ -39,7 +39,7 @@ app.delete("/:id", async (req, res, next) => {
   }
 });
 
-app.put("/:id", async (req, res, next) => {
+app.put('/:id', async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.id);
     res.send(await product.update(req.body));
@@ -48,7 +48,7 @@ app.put("/:id", async (req, res, next) => {
   }
 });
 
-app.get("/:id/reviews", async (req, res, next) => {
+app.get('/:id/reviews', async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.id);
     res.send(await product.getReviews());
@@ -57,7 +57,7 @@ app.get("/:id/reviews", async (req, res, next) => {
   }
 });
 
-app.post("/:id/reviews", async (req, res, next) => {
+app.post('/:id/reviews', async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.id);
     res.status(201).send(await product.createReview(req.body));
@@ -66,7 +66,7 @@ app.post("/:id/reviews", async (req, res, next) => {
   }
 });
 
-app.delete("/:id/reviews/:reviewId", async (req, res, next) => {
+app.delete('/:id/reviews/:reviewId', async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.id);
     const review = await product.getReviews({
@@ -81,7 +81,7 @@ app.delete("/:id/reviews/:reviewId", async (req, res, next) => {
   }
 });
 
-app.put("/:id/reviews/:reviewId", async (req, res, next) => {
+app.put('/:id/reviews/:reviewId', async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.id);
     const review = await product.getReviews({
@@ -95,7 +95,7 @@ app.put("/:id/reviews/:reviewId", async (req, res, next) => {
   }
 });
 
-app.get("/:id/reviews/:reviewId", async (req, res, next) => {
+app.get('/:id/reviews/:reviewId', async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.id);
     const review = await product.getReviews({
