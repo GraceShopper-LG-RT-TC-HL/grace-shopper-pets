@@ -37,17 +37,18 @@ export const addToCart = (product, quantity)=> {
 export const removeFromCart = (lineItem)=> {
   return async(dispatch)=> {
     const token = window.localStorage.getItem('token');
-    await axios.put('/api/orders/cart', lineItem, {
+    const response = await axios.delete('/api/orders/cart', {
       headers: {
         authorization: token
-      }
+      },
+      data: lineItem
     });
-    dispatch({ type: 'REMOVE_FROM_CART', lineItem });
+    dispatch({ type: 'SET_CART', cart: response.data });
   };
 };
 
-//create updateLineItem thunk mainly updating the quantity of the lineItem
-export const updateLineItem = (lineItem)=> {
+
+export const updateCart = (lineItem)=> {
   return async(dispatch)=> {
     const token = window.localStorage.getItem('token');
     const response = await axios.put('/api/orders/cart', lineItem, {
@@ -55,7 +56,7 @@ export const updateLineItem = (lineItem)=> {
         authorization: token
       }
     });
-    dispatch({ type: 'UPDATE_LINE_ITEM', lineItem: response.data });
+    dispatch({ type: 'SET_CART', cart: response.data });
   };
 };
 

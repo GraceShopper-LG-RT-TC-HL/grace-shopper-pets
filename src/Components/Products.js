@@ -10,7 +10,6 @@ const Products = () => {
 
   const handleAddToCart = (product) => {
     dispatch(addToCart(product, quantities[product.id]));
-    setQuantities({ ...quantities, [product.id]: 0 });
   };
 
   const handleQuantityChange = (productId, quantity) => {
@@ -28,14 +27,21 @@ const Products = () => {
               <h2>{product.name}</h2>
               <h3>${product.price}</h3>
               <h4>{product.description}</h4>
-              <form onSubmit={(e) => { e.preventDefault(); handleAddToCart(product) }}>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  handleAddToCart(product);
+                }}
+              >
                 <input
                   type="number"
                   name={`quantity-${product.id}`}
                   min="0"
                   max="10"
                   value={quantity}
-                  onChange={(ev) => handleQuantityChange(product.id, Number(ev.target.value))}
+                  onChange={(ev) =>
+                    handleQuantityChange(product.id, Number(ev.target.value))
+                  }
                 />
                 <button type="submit">Add to Cart</button>
               </form>
