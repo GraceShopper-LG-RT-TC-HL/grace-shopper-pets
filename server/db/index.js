@@ -3,6 +3,7 @@ const User = require('./User');
 const Product = require('./Product');
 const Order = require('./Order');
 const LineItem = require('./LineItem');
+const Coupon = require('./Coupon');
 const { faker } = require('@faker-js/faker');
 
 Order.belongsTo(User);
@@ -65,4 +66,5 @@ module.exports = {
   Product,
   Order,
   LineItem,
+  Coupon,
 };
