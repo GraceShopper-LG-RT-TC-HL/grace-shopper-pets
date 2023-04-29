@@ -32,19 +32,31 @@ const syncAndSeed = async () => {
 
   const products = await Promise.all(productsArr);
 
-  const cart = await ethyl.getCart();
 
-//use user.addToCart(product, quantity) with random quantities
+
+  let cart = await ethyl.getCart();
+
   const lineItems = await Promise.all(
     products.map((product) => {
       return ethyl.addToCart({ product, quantity: Math.floor(Math.random() * 10) });
     })
   );
+
+  let order = ethyl.createOrder();
+  cart = await ethyl.getCart();
   
-
-
-
-
+  const lineItems2 = await Promise.all(
+    products.map((product) => {
+      return LineItem.create({
+        productId: product.id,
+        orderId: cart.id,
+        quantity: Math.floor(Math.random() * 10) + 1,
+      });
+    })
+  );
+  
+  order = ethyl.createOrder();
+  
   return {
     users: {
       moe,

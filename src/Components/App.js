@@ -6,7 +6,8 @@ import Profile from './Profile';
 import Orders from './Orders';
 import Products from './Products';
 import { useSelector, useDispatch } from 'react-redux';
-import { loginWithToken, fetchCart, fetchProducts } from '../store';
+import { loginWithToken, fetchCart, fetchProducts, fetchOrders } from '../store';
+
 import { Link, Routes, Route } from 'react-router-dom';
 
 const App = () => {
@@ -19,6 +20,7 @@ const App = () => {
   useEffect(() => {
     if (auth.id) {
       dispatch(fetchCart());
+      dispatch(fetchOrders());
     }
   }, [auth]);
 

@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express.Router();
 
-const { User, Order } = require('../db');
+const { User, Order, LineItem, Product } = require('../db');
 
 module.exports = app;
 
@@ -56,10 +56,16 @@ app.get('/', async (req, res, next) => {
     const orders = await Order.findAll({
       where: {
         userId: user.id,
-        isCart: false,
+        isCart: false
       },
-    });
-  } catch (ex) {
+      include: {
+        model: LineItem
+      }
+    }
+      );
+    res.send(orders);
+  }
+  catch(ex){
     next(ex);
   }
 });
