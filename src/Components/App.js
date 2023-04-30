@@ -6,6 +6,7 @@ import Profile from './Profile';
 import Orders from './Orders';
 import Products from './Products';
 import ControlPanel from './ControlPanel';
+import GuestCart from './GuestCart';
 import { useSelector, useDispatch } from 'react-redux';
 import {
   loginWithToken,
@@ -57,7 +58,7 @@ const App = () => {
             />
             <Route
               path='/cart'
-              element={<Cart />}
+              element={<GuestCart />}
             />
             <Route
               path='/products'
