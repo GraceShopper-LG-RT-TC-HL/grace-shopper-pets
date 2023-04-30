@@ -7,7 +7,12 @@ import Orders from './Orders';
 import Products from './Products';
 import ControlPanel from './ControlPanel';
 import { useSelector, useDispatch } from 'react-redux';
-import { loginWithToken, fetchCart, fetchProducts, fetchOrders } from '../store';
+import {
+  loginWithToken,
+  fetchCart,
+  fetchProducts,
+  fetchOrders,
+} from '../store';
 
 import { Link, Routes, Route } from 'react-router-dom';
 
@@ -22,6 +27,9 @@ const App = () => {
     if (auth.id) {
       dispatch(fetchCart());
       dispatch(fetchOrders());
+      window.localStorage.removeItem('cart');
+    } else {
+      window.localStorage.setItem('cart', JSON.stringify({ lines: [] }));
     }
   }, [auth]);
 
@@ -32,7 +40,32 @@ const App = () => {
   return (
     <div>
       <h1>Acme Shopping</h1>
-      {auth.id ? <Home /> : <Login />}
+      <Home />
+      {auth.id ? (
+        ''
+      ) : (
+        <div>
+          <nav>
+            <Link to='/'>Home</Link>
+            <Link to='/products'>Products</Link>
+            <Link to='/cart'>Cart</Link>
+          </nav>
+          <Routes>
+            <Route
+              path='/login'
+              element={<Login />}
+            />
+            <Route
+              path='/cart'
+              element={<Cart />}
+            />
+            <Route
+              path='/products'
+              element={<Products />}
+            />
+          </Routes>
+        </div>
+      )}
       {!!auth.id && !auth.isAdmin && (
         <div>
           <nav>

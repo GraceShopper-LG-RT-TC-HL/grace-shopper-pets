@@ -10,9 +10,17 @@ const Home = () => {
     <div>
       <h1>Home</h1>
       <div>
-        Welcome {auth.username}!!
-        <Link to='/profile'>Your Profile</Link>
-        <button onClick={() => dispatch(logout())}>Logout</button>
+        Welcome {auth.id ? auth.username : 'Guest'}!!
+        {auth.id ? (
+          <Link to='/profile'>Your Profile</Link>
+        ) : (
+          <Link to='/login'>Login</Link>
+        )}
+        {auth.id ? (
+          <button onClick={() => dispatch(logout())}>Logout</button>
+        ) : (
+          ''
+        )}
       </div>
     </div>
   );
