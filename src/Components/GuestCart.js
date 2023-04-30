@@ -30,7 +30,6 @@ const GuestCart = () => {
         {lines.map((line, index) => {
           return (
             <li key={index}>
-              {console.log(line)}
               <h2>{line.product.name}</h2>
               <h3>${line.product.price}</h3>
               <h4>Quantity: {line.quantity}</h4>

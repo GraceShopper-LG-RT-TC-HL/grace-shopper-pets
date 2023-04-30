@@ -13,6 +13,7 @@ import {
   fetchCart,
   fetchProducts,
   fetchOrders,
+  transferGuestCart,
 } from '../store';
 
 import { Link, Routes, Route } from 'react-router-dom';
@@ -26,9 +27,9 @@ const App = () => {
 
   useEffect(() => {
     if (auth.id) {
+      dispatch(transferGuestCart());
       dispatch(fetchCart());
       dispatch(fetchOrders());
-      window.localStorage.removeItem('cart');
     } else {
       window.localStorage.setItem('cart', JSON.stringify({ lines: [] }));
     }
