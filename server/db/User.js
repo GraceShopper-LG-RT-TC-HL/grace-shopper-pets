@@ -36,6 +36,7 @@ const User = conn.define('user', {
 User.prototype.createOrder = async function () {
   const cart = await this.getCart();
   cart.isCart = false;
+  console.log('cart: ', cart);
   await cart.save();
   return cart;
 };
