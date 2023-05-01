@@ -54,14 +54,12 @@ const GuestCart = () => {
           );
         })}
       </ul>
-      {/*<h3>
+      <h3>
         Total: $
-        {cart.lines.reduce((total, lineItem) => {
-          return (
-            total + lineItem.product.price * quantities[lineItem.product.id]
-          );
+        {lines.reduce((total, lineItem) => {
+          return total + lineItem.product.price * lineItem.quantity;
         }, 0)}
-    </h3>*/}
+      </h3>
     </div>
   );
 };
