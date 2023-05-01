@@ -1,5 +1,5 @@
 const conn = require('./conn');
-const { STRING, UUID, UUIDV4 } = conn.Sequelize;
+const { STRING, UUID, UUIDV4, TEXT } = conn.Sequelize;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { BOOLEAN } = require('sequelize');
@@ -22,6 +22,20 @@ const User = conn.define('user', {
   password: {
     type: STRING,
     allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
+  },
+  imgUrl: {
+    type: TEXT,
+
+    validate: {
+      notEmpty: true,
+    },
+  },
+  shipAddress: {
+    type: STRING,
+
     validate: {
       notEmpty: true,
     },
@@ -129,6 +143,15 @@ User.prototype.updateCart = async function ({ product, quantity }) {
 User.addHook('beforeSave', async (user) => {
   if (user.changed('password')) {
     user.password = await bcrypt.hash(user.password, 5);
+  }
+});
+
+User.addHook('beforeValidate', (user) => {
+  if (user.shipAddress === '') {
+    user.shipAddress = null;
+  }
+  if (user.imgUrl === '') {
+    user.imgUrl = null;
   }
 });
 

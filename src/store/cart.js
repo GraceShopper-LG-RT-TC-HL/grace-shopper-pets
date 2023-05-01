@@ -25,13 +25,15 @@ export const transferGuestCart = () => {
   return async (dispatch) => {
     const token = window.localStorage.getItem('token');
     const cart = JSON.parse(window.localStorage.getItem('cart'));
-    const response = await axios.post('/api/orders/from_local_cart', cart, {
-      headers: {
-        authorization: token,
-      },
-    });
-    dispatch({ type: 'SET_CART', cart: response.data });
-    window.localStorage.removeItem('cart');
+    if (cart) {
+      const response = await axios.post('/api/orders/from_local_cart', cart, {
+        headers: {
+          authorization: token,
+        },
+      });
+      dispatch({ type: 'SET_CART', cart: response.data });
+      window.localStorage.removeItem('cart');
+    }
   };
 };
 
