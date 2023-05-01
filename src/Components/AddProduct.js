@@ -8,7 +8,9 @@ const AddProduct = () => {
     description: '',
     price: '',
   });
-  const [imgUrl, setImgUrl] = useState('');
+  const [imgUrl, setImgUrl] = useState(
+    'https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg'
+  );
   const dispatch = useDispatch();
   const ref = useRef();
 

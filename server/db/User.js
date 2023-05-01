@@ -5,6 +5,9 @@ const jwt = require('jsonwebtoken');
 const { BOOLEAN } = require('sequelize');
 const JWT = process.env.JWT;
 
+const default_avatar =
+  'https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/default-avatar.png';
+
 const User = conn.define('user', {
   id: {
     type: UUID,
@@ -28,6 +31,7 @@ const User = conn.define('user', {
   },
   imgUrl: {
     type: TEXT,
+    defaultValue: default_avatar,
 
     validate: {
       notEmpty: true,

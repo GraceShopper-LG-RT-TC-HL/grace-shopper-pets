@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 const GuestCart = () => {
   const cart = JSON.parse(window.localStorage.getItem('cart'));
   const [lines, setLines] = useState([]);
   const [quantity, setQuantity] = useState('');
 
-  if (cart) {
-    setLines(cart.lines);
-  }
+  useEffect(() => {
+    if (cart) {
+      setLines(cart.lines);
+    }
+  }, []);
 
   const removeLine = (line) => {
     setLines(lines.filter((_line) => _line.product.id !== line.product.id));
