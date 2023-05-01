@@ -4,6 +4,7 @@ import Login from './Login';
 import Cart from './Cart';
 import Profile from './Profile';
 import Orders from './Orders';
+import Order from './Order';
 import Products from './Products';
 import ControlPanel from './ControlPanel';
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,8 +13,12 @@ import { loginWithToken, fetchCart, fetchProducts, fetchOrders } from '../store'
 import { Link, Routes, Route } from 'react-router-dom';
 
 const App = () => {
-  const { auth } = useSelector((state) => state);
+  const { auth, cart } = useSelector((state) => state);
   const dispatch = useDispatch();
+  let totalQuantity = 0;
+  cart.lineItems.forEach((lineItem) => totalQuantity += lineItem.quantity);
+
+  
   useEffect(() => {
     dispatch(loginWithToken());
   }, []);
@@ -28,7 +33,8 @@ const App = () => {
   useEffect(() => {
     dispatch(fetchProducts());
   }, []);
-
+  
+  
   return (
     <div>
       <h1>Acme Shopping</h1>
@@ -39,7 +45,7 @@ const App = () => {
             <Link to='/'>Home</Link>
             <Link to='/products'>Products</Link>
             <Link to='/orders'>Orders</Link>
-            <Link to='/cart'>Cart</Link>
+            <Link to='/cart'>Cart ({ totalQuantity })</Link>
           </nav>
           <Routes>
             <Route
@@ -57,6 +63,10 @@ const App = () => {
             <Route
               path='/orders'
               element={<Orders />}
+            />
+            <Route 
+              path='/orders/:id' 
+              element={ <Order />} 
             />
           </Routes>
         </div>

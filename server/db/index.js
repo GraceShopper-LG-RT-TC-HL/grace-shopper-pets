@@ -35,7 +35,7 @@ const syncAndSeed = async () => {
 
   let cart = await ethyl.getCart();
 
-  const lineItems = await Promise.all(
+  let lineItems = await Promise.all(
     products.map((product) => {
       return ethyl.addToCart({
         product,
@@ -43,22 +43,35 @@ const syncAndSeed = async () => {
       });
     })
   );
-
-  let order = ethyl.createOrder();
+  
+  let order = await ethyl.createOrder();
+  //let order = await Order.create({ userId: ethyl.id, isCart: false});
+  
   cart = await ethyl.getCart();
-
-  const lineItems2 = await Promise.all(
+  
+  /*
+  lineItems = await Promise.all(
     products.map((product) => {
       return LineItem.create({
         productId: product.id,
-        orderId: cart.id,
+        orderId: cart.id, 
         quantity: Math.floor(Math.random() * 10) + 1,
       });
     })
   );
-
-  order = ethyl.createOrder();
-
+  */
+  lineItems = await Promise.all(
+    products.map((product) => {
+      return ethyl.addToCart({
+        product,
+        quantity: Math.floor(Math.random() * 10),
+      });
+    })
+  );
+  
+  order = await ethyl.createOrder();
+  
+  
   return {
     users: {
       moe,
