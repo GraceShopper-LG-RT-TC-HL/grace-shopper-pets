@@ -1,5 +1,5 @@
 const conn = require('./conn');
-const { STRING, UUID, UUIDV4 } = conn.Sequelize;
+const { STRING, TEXT, UUID, UUIDV4 } = conn.Sequelize;
 
 const Product = conn.define('product', {
   id: {
@@ -15,7 +15,7 @@ const Product = conn.define('product', {
     },
   },
   imgUrl: {
-    type: STRING,
+    type: TEXT,
     validate: {
       notEmpty: true,
     },

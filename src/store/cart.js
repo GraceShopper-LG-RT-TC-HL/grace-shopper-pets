@@ -10,28 +10,64 @@ const cart = (state = { lineItems: [] }, action) => {
 export const fetchCart = () => {
   return async (dispatch) => {
     const token = window.localStorage.getItem('token');
-    const response = await axios.get('/api/orders/cart', {
+    if (token) {
+      const response = await axios.get('/api/orders/cart', {
+        headers: {
+          authorization: token,
+        },
+      });
+      dispatch({ type: 'SET_CART', cart: response.data });
+    }
+  };
+};
+
+export const transferGuestCart = () => {
+  return async (dispatch) => {
+    const token = window.localStorage.getItem('token');
+    const cart = JSON.parse(window.localStorage.getItem('cart'));
+    const response = await axios.post('/api/orders/from_local_cart', cart, {
       headers: {
         authorization: token,
       },
     });
     dispatch({ type: 'SET_CART', cart: response.data });
+    window.localStorage.removeItem('cart');
   };
+};
+
+const addToGuestCart = (line) => {
+  const guestCart = JSON.parse(window.localStorage.getItem('cart'));
+  let inCart = false;
+
+  guestCart.lines.map((_line) => {
+    if (_line.product.id === line.product.id) {
+      _line.quantity = _line.quantity + line.quantity;
+      inCart = true;
+    }
+  });
+  if (!inCart) {
+    guestCart.lines.push(line);
+  }
+  window.localStorage.setItem('cart', JSON.stringify(guestCart));
 };
 
 export const addToCart = (product, quantity) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem('token');
-    const response = await axios.post(
-      '/api/orders/cart',
-      { product, quantity },
-      {
-        headers: {
-          authorization: token,
-        },
-      }
-    );
-    dispatch({ type: 'SET_CART', cart: response.data });
+    if (token) {
+      const response = await axios.post(
+        '/api/orders/cart',
+        { product, quantity },
+        {
+          headers: {
+            authorization: token,
+          },
+        }
+      );
+      dispatch({ type: 'SET_CART', cart: response.data });
+    } else {
+      addToGuestCart({ product, quantity });
+    }
   };
 };
 
@@ -62,6 +98,5 @@ export const updateCart = ({ product, quantity }) => {
     dispatch({ type: 'SET_CART', cart: response.data });
   };
 };
-
 
 export default cart;

@@ -32,6 +32,15 @@ app.post('/cart', async (req, res, next) => {
   }
 });
 
+app.post('/from_local_cart', async (req, res, next) => {
+  try {
+    const user = await User.findByToken(req.headers.authorization);
+    res.send(await user.addFromGuestCart(req.body));
+  } catch (ex) {
+    next(ex);
+  }
+});
+
 app.put('/cart', async (req, res, next) => {
   try {
     const user = await User.findByToken(req.headers.authorization);
@@ -56,16 +65,14 @@ app.get('/', async (req, res, next) => {
     const orders = await Order.findAll({
       where: {
         userId: user.id,
-        isCart: false
+        isCart: false,
       },
       include: {
-        model: LineItem
-      }
-    }
-      );
+        model: LineItem,
+      },
+    });
     res.send(orders);
-  }
-  catch(ex){
+  } catch (ex) {
     next(ex);
   }
 });
