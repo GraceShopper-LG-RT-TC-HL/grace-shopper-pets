@@ -38,18 +38,15 @@ const GuestCart = () => {
               <h2>{line.product.name}</h2>
               <h3>${line.product.price}</h3>
               <h4>Quantity: {line.quantity}</h4>
-              <img
-                src={line.product.imgUrl}
-                alt={line.product.name}
-              />
+              <img src={line.product.imgUrl} alt={line.product.name} />
               <button onClick={() => removeLine(line)}>Remove</button>
 
               <form onSubmit={(ev) => updateQuantity(ev, line.product.id)}>
                 <input
-                  type='number'
+                  type="number"
                   name={`quantity-${line.product.id}`}
-                  min='0'
-                  max='10'
+                  min="0"
+                  max="10"
                   value={quantity}
                   onChange={(ev) => setQuantity(ev.target.value)}
                 />

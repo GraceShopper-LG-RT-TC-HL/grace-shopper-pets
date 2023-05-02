@@ -15,7 +15,7 @@ const Order = conn.define('order', {
   userId: {
     type: UUID,
     allowNull: false
-  }
+  },
 });
 
 module.exports = Order;

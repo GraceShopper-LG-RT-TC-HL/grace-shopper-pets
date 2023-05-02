@@ -4,14 +4,16 @@ import { removeFromCart, updateCart } from '../store';
 import OrderForm from './OrderForm';
 
 const Cart = () => {
-  const { cart } = useSelector((state) => state);
+  const { cart, coupons } = useSelector((state) => state);
   const dispatch = useDispatch();
+
   const [quantities, setQuantities] = useState(
     cart.lineItems.reduce((acc, lineItem) => {
       acc[lineItem.product.id] = lineItem.quantity;
       return acc;
     }, {})
   );
+  const [couponCode, setCouponCode] = useState('');
 
   const handleAddToCart = (product) => {
     dispatch(updateCart({ product, quantity: quantities[product.id] }));
@@ -19,6 +21,26 @@ const Cart = () => {
 
   const handleQuantityChange = (productId, quantity) => {
     setQuantities({ ...quantities, [productId]: quantity });
+  };
+
+  const handleCouponCodeChange = (ev) => {
+    setCouponCode(ev.target.value);
+  };
+
+  const getTotalPrice = () => {
+    let totalPrice = 0;
+
+    cart.lineItems.forEach((lineItem) => {
+      const product = lineItem.product;
+      const quantity = quantities[product.id] || lineItem.quantity;
+      totalPrice += product.price * quantity;
+    });
+
+    const coupon = coupons.find((coupon) => coupon.code === couponCode);
+    if (coupon) {
+      totalPrice *= 1 - coupon.discount / 100;
+    }
+    return totalPrice;
   };
 
   return (
@@ -54,20 +76,21 @@ const Cart = () => {
                     handleQuantityChange(product.id, Number(ev.target.value))
                   }
                 />
-                <button type="submit">Update Quantity</button>
               </form>
             </li>
           );
         })}
       </ul>
-      <h3>
-        Total: $
-        {cart.lineItems.reduce((total, lineItem) => {
-          return (
-            total + lineItem.product.price * quantities[lineItem.product.id]
-          );
-        }, 0)}
-      </h3>
+      <form onSubmit={(e) => e.preventDefault()}>
+        <label htmlFor="couponCode">Coupon code:</label>
+        <input
+          type="text"
+          id="couponCode"
+          value={couponCode}
+          onChange={handleCouponCodeChange}
+        />
+      </form>
+      <h2>Total Price: ${getTotalPrice()}</h2>
       <OrderForm />
     </div>
   );

@@ -15,6 +15,7 @@ import {
   fetchProducts,
   fetchOrders,
   transferGuestCart,
+  fetchCoupons,
 } from '../store';
 
 import { Link, Routes, Route } from 'react-router-dom';
@@ -35,6 +36,7 @@ const App = () => {
       dispatch(transferGuestCart());
       dispatch(fetchCart());
       dispatch(fetchOrders());
+      dispatch(fetchCoupons());
     } else {
       window.localStorage.setItem('cart', JSON.stringify({ lines: [] }));
     }
