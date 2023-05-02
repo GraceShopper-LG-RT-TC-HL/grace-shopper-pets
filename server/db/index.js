@@ -5,11 +5,16 @@ const Order = require('./Order');
 const LineItem = require('./LineItem');
 const Coupon = require('./Coupon');
 const { faker } = require('@faker-js/faker');
+const Review = require('./Review');
 
 Order.belongsTo(User);
 LineItem.belongsTo(Order);
 Order.hasMany(LineItem);
 LineItem.belongsTo(Product);
+Review.belongsTo(User);
+User.hasMany(Review);
+Review.belongsTo(Product);
+Product.hasMany(Review);
 
 const syncAndSeed = async () => {
   await conn.sync({ force: true });
@@ -71,6 +76,12 @@ const syncAndSeed = async () => {
 
   order = await ethyl.createOrder();
 
+  Review.create({ userId: ethyl.id, productId: products[0].id, rating: 5, title: 'awesome!', content: `love my new ${products[0].name}!`});
+  Review.create({ userId: lucy.id, productId: products[0].id, rating: 3, title: 'meh', content: `${products[0].name} is ok. could be better.`})
+  Review.create({ userId: larry.id, productId: products[0].id, rating: 4, title: 'pretty gnarly', content: `this ${products[0].name} is pretty gnarly. i like it.`})
+  
+  Review.create({ userId: ethyl.id, productId: products[1].id, rating: 5, title: 'superb!', content: `love my wonderful ${products[1].name}!`});
+  
   return {
     users: {
       moe,
@@ -91,4 +102,5 @@ module.exports = {
   Order,
   LineItem,
   Coupon,
+  Review
 };

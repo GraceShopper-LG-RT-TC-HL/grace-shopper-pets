@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express.Router();
-const { Product } = require('../db');
+const { Product, Review } = require('../db');
 
 module.exports = app;
 
@@ -52,6 +52,12 @@ app.get('/:id/reviews', async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.id);
     res.send(await product.getReviews());
+    // const review = await Review.findAll({
+    //   where: {
+    //     productId: product.id
+    //   }
+    // });
+    // res.send(review);
   } catch (ex) {
     next(ex);
   }
