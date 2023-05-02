@@ -16,15 +16,18 @@ const Review = conn.define('review', {
   },
   userId: {
     type: UUID,
+  //  defaultValue: UUIDV4,
     allowNull: false
   },
   productId: {
     type: UUID,
+  //  defaultValue: UUIDV4,
     allowNull: false
   },
   rating: {
     type: INTEGER,
-    allowNull: false
+    allowNull: false,
+    defaultValue: 5
   }
 });
 

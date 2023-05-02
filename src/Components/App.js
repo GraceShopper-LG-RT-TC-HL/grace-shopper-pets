@@ -9,6 +9,8 @@ import Products from './Products';
 import Product from './Product';
 import ControlPanel from './ControlPanel';
 import GuestCart from './GuestCart';
+import AddReview from './AddReview';
+
 import { useSelector, useDispatch } from 'react-redux';
 import {
   loginWithToken,
@@ -63,8 +65,9 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/cart" element={<GuestCart />} />
             <Route path="/products" element={<Products />} />
-            <Route path='/products/:id'element={<Product />} />
-            />
+            <Route path="/products/:id" element={<Product />} />
+            {/*<Route path="/products/:id/reviews" element={<Reviews />} />*/}
+            {/*<Route path="/products/:id/reviews/new" element={<AddReview />}/>*/}
           </Routes>
         </div>
       )}

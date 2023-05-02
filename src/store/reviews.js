@@ -17,4 +17,17 @@ export const fetchReviews = (product) => {
     dispatch({ type: 'SET_REVIEWS', reviews: response.data});
   };
 };
+
+export const createReview = (review) => {
+  console.log('review: ', review)
+  return async (dispatch) => {
+    const token = window.localStorage.getItem('token');
+    const response = await axios.post(`api/products/${review.productId}/reviews`, review, {
+      headers: {
+        authorization: token
+      }
+    });
+    dispatch({ type: 'CREATE_REVIEW', review: response.data});
+  };
+};
 export default reviews;

@@ -44,7 +44,7 @@ const syncAndSeed = async () => {
     products.map((product) => {
       return ethyl.addToCart({
         product,
-        quantity: Math.floor(Math.random() * 10),
+        quantity: Math.floor(Math.random() * 10 + 1),
       });
     })
   );
@@ -69,7 +69,7 @@ const syncAndSeed = async () => {
     products.map((product) => {
       return ethyl.addToCart({
         product,
-        quantity: Math.floor(Math.random() * 10),
+        quantity: Math.floor(Math.random() * 10 + 1),
       });
     })
   );

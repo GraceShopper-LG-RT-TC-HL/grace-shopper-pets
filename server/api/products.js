@@ -66,7 +66,9 @@ app.get('/:id/reviews', async (req, res, next) => {
 app.post('/:id/reviews', async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.id);
-    res.status(201).send(await product.createReview(req.body));
+    const review = await Review.create(req.body);
+    //res.status(201).send(await product.addReview(req.body));
+    res.status(201).send(await product.addReview(review));
   } catch (ex) {
     next(ex);
   }
