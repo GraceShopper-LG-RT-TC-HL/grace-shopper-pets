@@ -76,16 +76,15 @@ const Products = () => {
                     <button type='submit'>Add to Cart</button>
                   </form>
                 </CardContent>
-                <CardMedia
-                  sx={{ margin: 0 }}
-                  component='img'
-                  image={product.imgUrl}
-                  title='random pet'
-                />
+                <Link to={`/products/${product.id}`}>
+                  <CardMedia
+                    sx={{ margin: 0 }}
+                    component='img'
+                    image={product.imgUrl}
+                    title='random pet'
+                  />
+                </Link>
               </Card>
-                <button type="submit">Add to Cart</button>
-              </form>
-              <Link to={`/products/${product.id}`}><img src={product.imgUrl} /></Link>
             </li>
           );
         })}
