@@ -10,6 +10,7 @@ import {
 const Coupons = () => {
   const { coupons } = useSelector((state) => state);
   const [code, setCode] = useState('');
+  const [discount, setDiscount] = useState('');
   const [id, setId] = useState('');
   const [changeForm, setChangeForm] = useState(true);
   const dispatch = useDispatch();
@@ -20,8 +21,9 @@ const Coupons = () => {
 
   const create = (ev) => {
     ev.preventDefault();
-    dispatch(createCoupon({ code }));
+    dispatch(createCoupon({ code, discount }));
     setCode('');
+    setDiscount('');
   };
 
   const destroy = (id) => {
@@ -30,15 +32,17 @@ const Coupons = () => {
 
   const update = (ev) => {
     ev.preventDefault();
-    dispatch(updateCoupon({ id, code }));
+    dispatch(updateCoupon({ id, code, discount }));
     setChangeForm(true);
     setCode('');
     setId('');
+    setDiscount('');
   };
 
   const edit = (coupon) => {
     setChangeForm(false);
     setCode(coupon.code);
+    setDiscount(coupon.discount);
     setId(coupon.id);
   };
 
@@ -46,13 +50,22 @@ const Coupons = () => {
     <div>
       <h2>{changeForm ? 'Create coupon' : 'Edit Coupon'}</h2>
       <form onSubmit={changeForm ? create : update}>
-        <label htmlFor='code'>
+        <label htmlFor="code">
           Code:
           <input
-            id='code'
+            id="code"
             value={code}
             onChange={(ev) => setCode(ev.target.value)}
           />
+        </label>
+        <label htmlFor="discount">
+          Discount:
+          <input
+            id="discount"
+            value={discount}
+            onChange={(ev) => setDiscount(ev.target.value)}
+          />
+          %OFF
         </label>
         <button>{changeForm ? 'Create' : 'Update'}</button>
         {changeForm ? (
@@ -66,6 +79,7 @@ const Coupons = () => {
           return (
             <li key={coupon.id}>
               <h4>{coupon.code}</h4>
+              <h4>{coupon.discount}%OFF</h4>
               <button onClick={() => edit(coupon)}>Edit</button>
               <button onClick={() => destroy(coupon.id)}>Remove</button>
             </li>

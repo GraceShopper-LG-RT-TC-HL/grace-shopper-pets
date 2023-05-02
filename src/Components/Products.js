@@ -7,6 +7,8 @@ const Products = () => {
   const dispatch = useDispatch();
 
   const [quantities, setQuantities] = useState({});
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredProducts, setFilteredProducts] = useState(products);
 
   const handleAddToCart = (product) => {
     dispatch(addToCart(product, quantities[product.id]));
@@ -16,11 +18,28 @@ const Products = () => {
     setQuantities({ ...quantities, [productId]: quantity });
   };
 
+  const handleSearchChange = (event) => {
+    const searchTerm = event.target.value;
+    setSearchTerm(searchTerm);
+    const filteredProducts = products.filter((product) =>
+      product.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredProducts(filteredProducts);
+  };
+
   return (
     <div>
       <h1>Products</h1>
+      <form onSubmit={(e) => e.preventDefault()}>
+        <input
+          type="text"
+          placeholder="Search Products"
+          value={searchTerm}
+          onChange={handleSearchChange}
+        />
+      </form>
       <ul>
-        {products.map((product) => {
+        {filteredProducts.map((product) => {
           const quantity = quantities[product.id] || 0;
           return (
             <li key={product.id}>

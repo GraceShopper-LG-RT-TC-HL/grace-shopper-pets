@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { attemptLogin, createUser } from '../store';
 import { useDispatch } from 'react-redux';
@@ -35,14 +34,14 @@ const Login = () => {
       </h2>
       <form onSubmit={changeForm ? login : create}>
         <input
-          placeholder='username'
+          placeholder="username"
           value={credentials.username}
-          name='username'
+          name="username"
           onChange={onChange}
         />
         <input
-          placeholder='password'
-          name='password'
+          placeholder="password"
+          name="password"
           value={credentials.password}
           onChange={onChange}
         />
