@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
+import AddReview from './AddReview';
 
 const Order = () => {
   const { orders, products } = useSelector((state) => state);
@@ -31,11 +32,17 @@ const Order = () => {
             <li key={lineItem.id}>
               Product Name: {product.name}, Price: ${product.price}, Quantity:{' '}
               {lineItem.quantity}
+              <br />
+              {/*<Link to={`/products/${product.id}/reviews/new`}><button>Leave a Review</button></Link>*/}
+              <AddReview 
+                product={product}
+              />
               <img src={product.imgUrl} />
             </li>
           );
         })}
       </ul>
+      
     </div>
   );
 };

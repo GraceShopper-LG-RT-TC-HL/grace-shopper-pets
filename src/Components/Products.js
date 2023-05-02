@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../store';
+import { Link } from 'react-router-dom';
 
 const Products = () => {
   const { products } = useSelector((state) => state);
@@ -64,7 +65,7 @@ const Products = () => {
                 />
                 <button type="submit">Add to Cart</button>
               </form>
-              <img src={product.imgUrl} />
+              <Link to={`/products/${product.id}`}><img src={product.imgUrl} /></Link>
             </li>
           );
         })}

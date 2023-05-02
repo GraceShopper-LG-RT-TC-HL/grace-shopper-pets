@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express.Router();
-const { Product } = require('../db');
+const { Product, Review } = require('../db');
 
 module.exports = app;
 
@@ -52,6 +52,12 @@ app.get('/:id/reviews', async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.id);
     res.send(await product.getReviews());
+    // const review = await Review.findAll({
+    //   where: {
+    //     productId: product.id
+    //   }
+    // });
+    // res.send(review);
   } catch (ex) {
     next(ex);
   }
@@ -60,7 +66,9 @@ app.get('/:id/reviews', async (req, res, next) => {
 app.post('/:id/reviews', async (req, res, next) => {
   try {
     const product = await Product.findByPk(req.params.id);
-    res.status(201).send(await product.createReview(req.body));
+    const review = await Review.create(req.body);
+    //res.status(201).send(await product.addReview(req.body));
+    res.status(201).send(await product.addReview(review));
   } catch (ex) {
     next(ex);
   }
