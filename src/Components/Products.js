@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../store';
+import { Link } from 'react-router-dom';
 
 import { Card, CardContent, CardMedia, Typography } from '@mui/material';
 
@@ -82,6 +83,9 @@ const Products = () => {
                   title='random pet'
                 />
               </Card>
+                <button type="submit">Add to Cart</button>
+              </form>
+              <Link to={`/products/${product.id}`}><img src={product.imgUrl} /></Link>
             </li>
           );
         })}

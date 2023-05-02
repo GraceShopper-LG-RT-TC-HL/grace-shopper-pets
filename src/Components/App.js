@@ -6,8 +6,11 @@ import Profile from './Profile';
 import Orders from './Orders';
 import Order from './Order';
 import Products from './Products';
+import Product from './Product';
 import ControlPanel from './ControlPanel';
 import GuestCart from './GuestCart';
+import AddReview from './AddReview';
+
 import { useSelector, useDispatch } from 'react-redux';
 import {
   loginWithToken,
@@ -62,6 +65,9 @@ const App = () => {
             <Route path="/login" element={<Login />} />
             <Route path="/cart" element={<GuestCart />} />
             <Route path="/products" element={<Products />} />
+            <Route path="/products/:id" element={<Product />} />
+            {/*<Route path="/products/:id/reviews" element={<Reviews />} />*/}
+            {/*<Route path="/products/:id/reviews/new" element={<AddReview />}/>*/}
           </Routes>
         </div>
       )}
@@ -79,6 +85,7 @@ const App = () => {
             <Route path="/products" element={<Products />} />
             <Route path="/orders" element={<Orders />} />
             <Route path="/orders/:id" element={<Order />} />
+            <Route path='/products/:id'element={<Product />} />
           </Routes>
         </div>
       )}
@@ -92,6 +99,7 @@ const App = () => {
             <Route path="/profile" element={<Profile />} />
             <Route path="/" element={<ControlPanel />} />
             <Route path="/products" element={<Products />} />
+            <Route path='/products/:id'element={<Product />} />
           </Routes>
         </div>
       )}
