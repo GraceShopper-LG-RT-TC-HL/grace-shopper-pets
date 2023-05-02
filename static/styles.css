@@ -2,7 +2,6 @@ body {
   font-family: verdana;
 }
 
-
 form {
   display: flex;
   flex-direction: column;
@@ -11,6 +10,7 @@ form {
 img {
   width: 100%;
   height: auto;
+  margin: 1rem;
 }
 
 form > * {
@@ -27,6 +27,10 @@ ul {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+}
+
+li {
+  margin: 1rem;
 }
 
 #cpanel {
