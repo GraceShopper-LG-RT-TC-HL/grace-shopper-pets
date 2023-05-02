@@ -15,7 +15,7 @@ const Order = () => {
       <h1>Order Details</h1>
       <p>
         Order #: {order.id} <br />
-        Ordered on: {order.createdAt}
+        Date: {order.createdAt.slice(0, 10)};
       </p>
       <h3>
         Total: $

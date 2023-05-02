@@ -48,34 +48,23 @@ const Profile = () => {
 
   return (
     <form onSubmit={update}>
-      <label htmlFor='imgUrl'>
+      <label htmlFor="imgUrl">
         Upload avatar:
-        <input
-          id='imgUrl'
-          name='imgUrl'
-          type='file'
-          ref={ref}
-        />
+        <input id="imgUrl" name="imgUrl" type="file" ref={ref} />
         <button onClick={() => setImgUrl('')}>Remove Avatar</button>
       </label>
-      <label htmlFor='imgSrc'>
+      <label htmlFor="imgSrc">
         Avatar:
-        <img
-          id='imgSrc'
-          src={imgUrl}
-        />
+        <img id="imgSrc" src={imgUrl} />
       </label>
-      <input
-        value={username}
-        onChange={(ev) => setUserName(ev.target.value)}
-      />
+      <input value={username} onChange={(ev) => setUserName(ev.target.value)} />
       <input
         value={password}
-        placeholder='Enter a new password'
+        placeholder="Enter a new password"
         onChange={(ev) => setPassword(ev.target.value)}
       />
       <textarea
-        placeholder='Enter your shipping address'
+        placeholder="Enter your shipping address"
         rows={3}
         cols={30}
         value={shipAddress}

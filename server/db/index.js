@@ -43,12 +43,12 @@ const syncAndSeed = async () => {
       });
     })
   );
-  
+
   let order = await ethyl.createOrder();
   //let order = await Order.create({ userId: ethyl.id, isCart: false});
-  
+
   cart = await ethyl.getCart();
-  
+
   /*
   lineItems = await Promise.all(
     products.map((product) => {
@@ -68,10 +68,9 @@ const syncAndSeed = async () => {
       });
     })
   );
-  
+
   order = await ethyl.createOrder();
-  
-  
+
   return {
     users: {
       moe,

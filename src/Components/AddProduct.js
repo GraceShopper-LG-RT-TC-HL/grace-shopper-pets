@@ -44,49 +44,44 @@ const AddProduct = () => {
     <div>
       <h2>Add a Product</h2>
       <form onSubmit={create}>
-        <label htmlFor='name'>
+        <label htmlFor="name">
           Product name:
           <input
-            id='name'
-            name='name'
+            id="name"
+            name="name"
             value={newProduct.name}
             onChange={onChange}
           />
         </label>
-        <label htmlFor='description'>
+        <label htmlFor="description">
           Product description:
           <input
-            id='description'
-            name='description'
+            id="description"
+            name="description"
             value={newProduct.description}
             onChange={onChange}
           />
         </label>
-        <label htmlFor='imgurl2'>
+        <label htmlFor="imgurl2">
           Product imgUrl:
           <input
-            id='imgurl2'
-            name='imgUrl'
+            id="imgurl2"
+            name="imgUrl"
             value={imgUrl}
             onChange={(ev) => setImgUrl(ev.target.value)}
           />
         </label>
         {/* Images uploaded fail validation since they are not in URL format */}
-        <label htmlFor='imgUrl'>
+        <label htmlFor="imgUrl">
           Product img Upload:
-          <input
-            id='imgUrl'
-            name='imgUrl'
-            type='file'
-            ref={ref}
-          />
+          <input id="imgUrl" name="imgUrl" type="file" ref={ref} />
           <img src={imgUrl} />
         </label>
-        <label htmlFor='price'>
+        <label htmlFor="price">
           Product price:
           <input
-            id='price'
-            name='price'
+            id="price"
+            name="price"
             value={newProduct.price}
             onChange={onChange}
           />

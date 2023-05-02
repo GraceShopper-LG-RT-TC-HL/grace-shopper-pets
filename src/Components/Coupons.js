@@ -36,11 +36,13 @@ const Coupons = () => {
     setChangeForm(true);
     setCode('');
     setId('');
+    setDiscount('');
   };
 
   const edit = (coupon) => {
     setChangeForm(false);
     setCode(coupon.code);
+    setDiscount(coupon.discount);
     setId(coupon.id);
   };
 
@@ -77,6 +79,7 @@ const Coupons = () => {
           return (
             <li key={coupon.id}>
               <h4>{coupon.code}</h4>
+              <h4>{coupon.discount}%OFF</h4>
               <button onClick={() => edit(coupon)}>Edit</button>
               <button onClick={() => destroy(coupon.id)}>Remove</button>
             </li>

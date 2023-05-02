@@ -24,9 +24,8 @@ const App = () => {
   const { auth, cart } = useSelector((state) => state);
   const dispatch = useDispatch();
   let totalQuantity = 0;
-  cart.lineItems.forEach((lineItem) => totalQuantity += lineItem.quantity);
+  cart.lineItems.forEach((lineItem) => (totalQuantity += lineItem.quantity));
 
-  
   useEffect(() => {
     dispatch(loginWithToken());
   }, []);
@@ -45,8 +44,7 @@ const App = () => {
   useEffect(() => {
     dispatch(fetchProducts());
   }, []);
-  
-  
+
   return (
     <div>
       <h1>Acme Shopping</h1>
@@ -56,77 +54,44 @@ const App = () => {
       ) : (
         <div>
           <nav>
-            <Link to='/'>Home</Link>
-            <Link to='/products'>Products</Link>
-            <Link to='/cart'>Cart</Link>
+            <Link to="/">Home</Link>
+            <Link to="/products">Products</Link>
+            <Link to="/cart">Cart</Link>
           </nav>
           <Routes>
-            <Route
-              path='/login'
-              element={<Login />}
-            />
-            <Route
-              path='/cart'
-              element={<GuestCart />}
-            />
-            <Route
-              path='/products'
-              element={<Products />}
-            />
+            <Route path="/login" element={<Login />} />
+            <Route path="/cart" element={<GuestCart />} />
+            <Route path="/products" element={<Products />} />
           </Routes>
         </div>
       )}
       {!!auth.id && !auth.isAdmin && (
         <div>
           <nav>
-            <Link to='/'>Home</Link>
-            <Link to='/products'>Products</Link>
-            <Link to='/orders'>Orders</Link>
-            <Link to='/cart'>Cart ({ totalQuantity })</Link>
+            <Link to="/">Home</Link>
+            <Link to="/products">Products</Link>
+            <Link to="/orders">Orders</Link>
+            <Link to="/cart">Cart ({totalQuantity})</Link>
           </nav>
           <Routes>
-            <Route
-              path='/profile'
-              element={<Profile />}
-            />
-            <Route
-              path='/cart'
-              element={<Cart />}
-            />
-            <Route
-              path='/products'
-              element={<Products />}
-            />
-            <Route
-              path='/orders'
-              element={<Orders />}
-            />
-            <Route 
-              path='/orders/:id' 
-              element={ <Order />} 
-            />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/orders/:id" element={<Order />} />
           </Routes>
         </div>
       )}
       {!!auth.id && auth.isAdmin && (
         <div>
           <nav>
-            <Link to='/'>Home</Link>
-            <Link to='/products'>Products</Link>
+            <Link to="/">Home</Link>
+            <Link to="/products">Products</Link>
           </nav>
           <Routes>
-            <Route
-              path='/profile'
-              element={<Profile />}
-            />
-            <Route
-              path='/'
-              element={<ControlPanel />}
-            />
-            <Route
-              path='/products'
-              element={<Products />}
-            />
+            <Route path="/profile" element={<Profile />} />
+            <Route path="/" element={<ControlPanel />} />
+            <Route path="/products" element={<Products />} />
           </Routes>
         </div>
       )}

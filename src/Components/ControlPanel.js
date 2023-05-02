@@ -4,7 +4,7 @@ import Coupons from './Coupons';
 
 const ControlPanel = () => {
   return (
-    <div id='cpanel'>
+    <div id="cpanel">
       <AddProduct />
       <Coupons />
     </div>

@@ -5,16 +5,16 @@ const Order = conn.define('order', {
   id: {
     type: UUID,
     primaryKey: true,
-    defaultValue: UUIDV4
+    defaultValue: UUIDV4,
   },
   isCart: {
     type: BOOLEAN,
     defaultValue: true,
-    allowNull: false
+    allowNull: false,
   },
   userId: {
     type: UUID,
-    allowNull: false
+    allowNull: false,
   },
 });
 
