@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import { attemptLogin, createUser } from '../store';
 import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+
+import { Typography, TextField, Button } from '@mui/material';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -10,6 +13,8 @@ const Login = () => {
     password: '',
   });
 
+  const navigate = useNavigate();
+
   const onChange = (ev) => {
     setCredentials({ ...credentials, [ev.target.name]: ev.target.value });
   };
@@ -17,6 +22,7 @@ const Login = () => {
   const login = (ev) => {
     ev.preventDefault();
     dispatch(attemptLogin(credentials));
+    navigate('/products');
   };
 
   const create = (ev) => {
@@ -26,26 +32,32 @@ const Login = () => {
 
   return (
     <div>
-      <h2>
+      <Typography variant='h4'>
         {changeForm ? 'Login ' : 'Create your account '}
-        <button onClick={() => setChangeForm(!changeForm)}>
+
+        <Button onClick={() => setChangeForm(!changeForm)}>
           {changeForm ? 'Create Account?' : 'Login'}
-        </button>
-      </h2>
+        </Button>
+      </Typography>
+
       <form onSubmit={changeForm ? login : create}>
-        <input
-          placeholder="username"
+        <TextField
+          required
+          margin='dense'
           value={credentials.username}
-          name="username"
+          label='username'
+          name='username'
           onChange={onChange}
         />
-        <input
-          placeholder="password"
-          name="password"
+        <TextField
+          required
+          margin='dense'
+          label='password'
+          name='password'
           value={credentials.password}
           onChange={onChange}
         />
-        <button>{changeForm ? 'Login' : 'Create Account'}</button>
+        <Button type='submit'>{changeForm ? 'Login' : 'Create Account'}</Button>
       </form>
     </div>
   );

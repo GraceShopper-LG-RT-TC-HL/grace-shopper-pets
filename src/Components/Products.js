@@ -33,7 +33,7 @@ const Products = () => {
 
   return (
     <div>
-      <h1>Products</h1>
+      <Typography variant='h4'>Products</Typography>
       <form onSubmit={(e) => e.preventDefault()}>
         <input
           type='text'
