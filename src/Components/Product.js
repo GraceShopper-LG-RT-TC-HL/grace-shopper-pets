@@ -18,7 +18,7 @@ const Product = () => {
       <h4>{ product.description }</h4>
       <img src={ product.imgUrl } />
       <br />
-      <h2>Reviews</h2>
+      
       <Reviews 
         product={ product }
       />

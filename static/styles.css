@@ -22,11 +22,16 @@ nav {
   justify-content: space-around;
 }
 
+
 ul {
   list-style-type: none;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+}
+
+.reviews ul {
+  flex-direction: column;
 }
 
 li {
@@ -37,3 +42,4 @@ li {
   display: flex;
   justify-content: space-around;
 }
+

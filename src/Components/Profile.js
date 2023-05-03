@@ -51,7 +51,7 @@ const Profile = () => {
       <label htmlFor="imgUrl">
         Upload avatar:
         <input id="imgUrl" name="imgUrl" type="file" ref={ref} />
-        <button onClick={() => setImgUrl('')}>Remove Avatar</button>
+        <button onClick={() => setImgUrl('https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/default-avatar.png')}>Remove Avatar</button>
       </label>
       <label htmlFor="imgSrc">
         Avatar:

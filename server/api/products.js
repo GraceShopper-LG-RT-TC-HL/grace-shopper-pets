@@ -116,3 +116,19 @@ app.get('/:id/reviews/:reviewId', async (req, res, next) => {
     next(ex);
   }
 });
+
+// app.get('/:id/reviews/:reviewId/', async (req, res, next) => {
+//   try {
+//     const product = await Product.findByPk(req.params.id);
+//     const review = await product.getReviews({
+//       where: {
+//         id: req.params.reviewId,
+//       },
+//     });
+//     const user = review.getUser();
+    
+//     //res.send(review[0]);
+//   } catch (ex) {
+//     next(ex);
+//   }
+// });
