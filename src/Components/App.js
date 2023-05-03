@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Login from './Login';
 import Cart from './Cart';
 import Profile from './Profile';
@@ -29,6 +29,7 @@ import {
 const App = () => {
   const { auth } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const location = useLocation();
 
   useEffect(() => {
     dispatch(loginWithToken());
@@ -40,14 +41,15 @@ const App = () => {
       dispatch(fetchCart());
       dispatch(fetchOrders());
       dispatch(fetchCoupons());
-    } else {
-      window.localStorage.setItem('cart', JSON.stringify({ lines: [] }));
     }
   }, [auth]);
 
   useEffect(() => {
     dispatch(fetchProducts());
+    dispatch(fetchCart());
   }, []);
+
+  console.log(location);
 
   return (
     <div>

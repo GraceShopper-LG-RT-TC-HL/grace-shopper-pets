@@ -1,52 +1,40 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { removeFromCart, updateCart } from '../store';
 
 const GuestCart = () => {
-  const cart = JSON.parse(window.localStorage.getItem('cart'));
-  const [lines, setLines] = useState([]);
+  const { cart } = useSelector((state) => state);
   const [quantity, setQuantity] = useState('');
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (cart) {
-      setLines(cart.lines);
-    }
-  }, []);
-
-  const removeLine = (line) => {
-    setLines(lines.filter((_line) => _line.product.id !== line.product.id));
-  };
-
-  const updateQuantity = (ev, prodId) => {
+  const updateQuantity = (ev, product) => {
     ev.preventDefault();
-    setLines(
-      lines.map((_line) => {
-        if (_line.product.id === prodId) {
-          _line.quantity = Number(quantity);
-        }
-        return _line;
-      })
-    );
-    console.log(lines);
-    window.localStorage.setItem('cart', JSON.stringify({ lines }));
+    dispatch(updateCart({ product, quantity: Number(quantity) }));
   };
   return (
     <div>
       <h1>Cart</h1>
       <ul>
-        {lines.map((line, index) => {
+        {cart.lineItems.map((line, index) => {
           return (
             <li key={index}>
               <h2>{line.product.name}</h2>
               <h3>${line.product.price}</h3>
               <h4>Quantity: {line.quantity}</h4>
-              <img src={line.product.imgUrl} alt={line.product.name} />
-              <button onClick={() => removeLine(line)}>Remove</button>
+              <img
+                src={line.product.imgUrl}
+                alt={line.product.name}
+              />
+              <button onClick={() => dispatch(removeFromCart(line))}>
+                Remove
+              </button>
 
-              <form onSubmit={(ev) => updateQuantity(ev, line.product.id)}>
+              <form onSubmit={(ev) => updateQuantity(ev, line.product)}>
                 <input
-                  type="number"
+                  type='number'
                   name={`quantity-${line.product.id}`}
-                  min="0"
-                  max="10"
+                  min='0'
+                  max='10'
                   value={quantity}
                   onChange={(ev) => setQuantity(ev.target.value)}
                 />
@@ -58,7 +46,7 @@ const GuestCart = () => {
       </ul>
       <h3>
         Total: $
-        {lines.reduce((total, lineItem) => {
+        {cart.lineItems.reduce((total, lineItem) => {
           return total + lineItem.product.price * lineItem.quantity;
         }, 0)}
       </h3>

@@ -55,14 +55,16 @@ const Nav = () => {
   }, [auth]);
 
   useEffect(() => {
-    setPages(
-      pages.map((page) => {
-        if (page.name.includes('Cart')) {
-          return { name: `Cart (${totalQuantity})`, link: '/cart' };
-        }
-        return page;
-      })
-    );
+    if (auth.id) {
+      setPages(
+        pages.map((page) => {
+          if (page.name.includes('Cart')) {
+            return { name: `Cart (${totalQuantity})`, link: '/cart' };
+          }
+          return page;
+        })
+      );
+    }
   }, [cart]);
 
   const handleOpenNavMenu = (ev) => {

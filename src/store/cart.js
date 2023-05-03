@@ -17,6 +17,13 @@ export const fetchCart = () => {
         },
       });
       dispatch({ type: 'SET_CART', cart: response.data });
+    } else {
+      const guestCart = JSON.parse(window.localStorage.getItem('cart'));
+      if (guestCart) {
+        dispatch({ type: 'SET_CART', cart: guestCart });
+      } else {
+        window.localStorage.setItem('cart', JSON.stringify({ lineItems: [] }));
+      }
     }
   };
 };
@@ -37,20 +44,21 @@ export const transferGuestCart = () => {
   };
 };
 
-const addToGuestCart = (line) => {
+const addToGuestCart = (dispatch, line) => {
   const guestCart = JSON.parse(window.localStorage.getItem('cart'));
   let inCart = false;
 
-  guestCart.lines.map((_line) => {
+  guestCart.lineItems.map((_line) => {
     if (_line.product.id === line.product.id) {
       _line.quantity = _line.quantity + line.quantity;
       inCart = true;
     }
   });
   if (!inCart) {
-    guestCart.lines.push(line);
+    guestCart.lineItems.push(line);
   }
   window.localStorage.setItem('cart', JSON.stringify(guestCart));
+  dispatch({ type: 'SET_CART', cart: guestCart });
 };
 
 export const addToCart = (product, quantity) => {
@@ -68,7 +76,7 @@ export const addToCart = (product, quantity) => {
       );
       dispatch({ type: 'SET_CART', cart: response.data });
     } else {
-      addToGuestCart({ product, quantity });
+      addToGuestCart(dispatch, { product, quantity });
     }
   };
 };
@@ -76,28 +84,51 @@ export const addToCart = (product, quantity) => {
 export const removeFromCart = (lineItem) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem('token');
-    const response = await axios.put('/api/orders/cart', lineItem, {
-      headers: {
-        authorization: token,
-      },
-    });
-    dispatch({ type: 'SET_CART', cart: response.data });
+    if (token) {
+      const response = await axios.put('/api/orders/cart', lineItem, {
+        headers: {
+          authorization: token,
+        },
+      });
+      dispatch({ type: 'SET_CART', cart: response.data });
+    } else {
+      const guestCart = JSON.parse(window.localStorage.getItem('cart'));
+      const newCart = {
+        lineItems: guestCart.lineItems.filter(
+          (line) => line.product.id !== lineItem.product.id
+        ),
+      };
+      console.log(newCart);
+      window.localStorage.setItem('cart', JSON.stringify(newCart));
+      dispatch({ type: 'SET_CART', cart: newCart });
+    }
   };
 };
 
 export const updateCart = ({ product, quantity }) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem('token');
-    const response = await axios.put(
-      '/api/orders/cart/update',
-      { product, quantity },
-      {
-        headers: {
-          authorization: token,
-        },
-      }
-    );
-    dispatch({ type: 'SET_CART', cart: response.data });
+    if (token) {
+      const response = await axios.put(
+        '/api/orders/cart/update',
+        { product, quantity },
+        {
+          headers: {
+            authorization: token,
+          },
+        }
+      );
+      dispatch({ type: 'SET_CART', cart: response.data });
+    } else {
+      const guestCart = JSON.parse(window.localStorage.getItem('cart'));
+      guestCart.lineItems.map((_line) => {
+        if (_line.product.id === product.id) {
+          _line.quantity = quantity;
+        }
+      });
+      window.localStorage.setItem('cart', JSON.stringify(guestCart));
+      dispatch({ type: 'SET_CART', cart: guestCart });
+    }
   };
 };
 
