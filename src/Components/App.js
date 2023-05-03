@@ -66,8 +66,6 @@ const App = () => {
             <Route path="/cart" element={<GuestCart />} />
             <Route path="/products" element={<Products />} />
             <Route path="/products/:id" element={<Product />} />
-            {/*<Route path="/products/:id/reviews" element={<Reviews />} />*/}
-            {/*<Route path="/products/:id/reviews/new" element={<AddReview />}/>*/}
           </Routes>
         </div>
       )}
@@ -86,6 +84,7 @@ const App = () => {
             <Route path="/orders" element={<Orders />} />
             <Route path="/orders/:id" element={<Order />} />
             <Route path='/products/:id'element={<Product />} />
+            <Route path="/products/:id/reviews/new" element={<AddReview />}/>
           </Routes>
         </div>
       )}

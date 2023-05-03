@@ -1,5 +1,5 @@
 const conn = require('./conn');
-const { STRING, TEXT, UUID, UUIDV4, INTEGER } = conn.Sequelize;
+const { STRING, TEXT, UUID, UUIDV4, INTEGER, FLOAT } = conn.Sequelize;
 
 const Review = conn.define('review', {
   id: {
@@ -27,7 +27,11 @@ const Review = conn.define('review', {
   rating: {
     type: INTEGER,
     allowNull: false,
-    defaultValue: 5
+    //defaultValue: 5,
+    validate: {
+      min: 1,
+      max: 5
+    }
   }
 });
 
