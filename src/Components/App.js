@@ -76,8 +76,6 @@ const App = () => {
               path='/products/:id'
               element={<Product />}
             />
-            {/*<Route path="/products/:id/reviews" element={<Reviews />} />*/}
-            {/*<Route path="/products/:id/reviews/new" element={<AddReview />}/>*/}
           </Routes>
         </div>
       )}
