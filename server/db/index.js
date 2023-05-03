@@ -81,6 +81,13 @@ const syncAndSeed = async () => {
   Review.create({ userId: larry.id, productId: products[0].id, rating: 4, title: 'pretty gnarly', content: `this ${products[0].name} is pretty gnarly. i like it.`})
   
   Review.create({ userId: ethyl.id, productId: products[1].id, rating: 5, title: 'superb!', content: `love my wonderful ${products[1].name}!`});
+  Review.create({ userId: lucy.id, productId: products[1].id, rating: 4, title: 'nice', content: `liking ${products[1].name} so far!`});
+  
+  Review.create({ userId: lucy.id, productId: products[2].id, rating: 4, title: 'pretty nice', content: `i like ${products[2].name} and she likes me!`});
+  Review.create({ userId: larry.id, productId: products[2].id, rating: 4, title: 'nice!', content: `furry factor is on point.`});
+  
+  Review.create({ userId: lucy.id, productId: products[3].id, rating: 1, title: 'i was bitten...', content: `i was bitten by ${products[3].name}. be warned!`});
+  Review.create({ userId: larry.id, productId: products[3].id, rating: 4, title: 'noice', content: `we are growing fond of each other`});
   
   return {
     users: {

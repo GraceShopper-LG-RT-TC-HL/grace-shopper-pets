@@ -33,10 +33,8 @@ const Order = () => {
               Product Name: {product.name}, Price: ${product.price}, Quantity:{' '}
               {lineItem.quantity}
               <br />
-              {/*<Link to={`/products/${product.id}/reviews/new`}><button>Leave a Review</button></Link>*/}
-              <AddReview 
-                product={product}
-              />
+              <Link to={`/products/${product.id}/reviews/new`}><button>Leave a Review</button></Link>
+              
               <img src={product.imgUrl} />
             </li>
           );
