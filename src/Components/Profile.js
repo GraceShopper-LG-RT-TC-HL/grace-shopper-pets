@@ -2,6 +2,18 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { updateUser } from '../store';
 
+import {
+  Typography,
+  TextField,
+  Button,
+  IconButton,
+  Avatar,
+  Card,
+  Stack,
+  Divider,
+} from '@mui/material';
+import { Upload, Delete } from '@mui/icons-material';
+
 const Profile = () => {
   const { auth } = useSelector((state) => state);
   const [username, setUserName] = useState('');
@@ -48,29 +60,80 @@ const Profile = () => {
 
   return (
     <form onSubmit={update}>
-      <label htmlFor="imgUrl">
-        Upload avatar:
-        <input id="imgUrl" name="imgUrl" type="file" ref={ref} />
-        <button onClick={() => setImgUrl('')}>Remove Avatar</button>
-      </label>
-      <label htmlFor="imgSrc">
-        Avatar:
-        <img id="imgSrc" src={imgUrl} />
-      </label>
-      <input value={username} onChange={(ev) => setUserName(ev.target.value)} />
-      <input
+      <Card
+        raised
+        sx={{ maxWidth: 200 }}
+      >
+        <Typography
+          variant='h6'
+          align='center'
+        >
+          Avatar
+        </Typography>
+        <Avatar
+          id='imgSrc'
+          src={imgUrl}
+          align='center'
+          sx={{ width: 100, height: 100, margin: 'auto' }}
+        />
+        <Stack
+          direction='row'
+          divider={
+            <Divider
+              orientation='vertical'
+              variant='middle'
+              flexItem
+            />
+          }
+          justifyContent='space-around'
+        >
+          <IconButton
+            variant='contained'
+            component='label'
+          >
+            <Upload />
+            <input
+              hidden
+              id='imgUrl'
+              name='imgUrl'
+              type='file'
+              ref={ref}
+            />
+          </IconButton>
+          <IconButton
+            onClick={() =>
+              setImgUrl(
+                'https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/default-avatar.png'
+              )
+            }
+          >
+            <Delete />
+          </IconButton>
+        </Stack>
+      </Card>
+
+      <TextField
+        label='username'
+        margin='dense'
+        value={username}
+        placeholder='Enter a new username'
+        onChange={(ev) => setUserName(ev.target.value)}
+      />
+      <TextField
+        label='password'
+        margin='dense'
         value={password}
-        placeholder="Enter a new password"
+        placeholder='Enter a new password'
         onChange={(ev) => setPassword(ev.target.value)}
       />
-      <textarea
-        placeholder="Enter your shipping address"
-        rows={3}
-        cols={30}
+      <TextField
+        multiline
+        label='shipping address'
+        placeholder='Enter your shipping address'
         value={shipAddress}
         onChange={(ev) => setShipAddress(ev.target.value)}
       />
-      <button>Update</button>
+      <Button type='submit'>Update</Button>
     </form>
   );
 };
