@@ -99,20 +99,20 @@ User.prototype.addToCart = async function ({ product, quantity }) {
   return this.getCart();
 };
 
-User.prototype.addFromGuestCart = async function ({ lines }) {
+User.prototype.addFromGuestCart = async function ({ lineItems }) {
   const cart = await this.getCart();
-  for (let i = 0; i < lines.length; i++) {
+  for (let i = 0; i < lineItems.length; i++) {
     let lineItem = cart.lineItems.find((lineItem) => {
-      return lineItem.productId === lines[i].product.id;
+      return lineItem.productId === lineItems[i].product.id;
     });
     if (lineItem) {
-      lineItem.quantity += lines[i].quantity;
+      lineItem.quantity += lineItems[i].quantity;
       await lineItem.save();
     } else {
       await conn.models.lineItem.create({
         orderId: cart.id,
-        productId: lines[i].product.id,
-        quantity: lines[i].quantity,
+        productId: lineItems[i].product.id,
+        quantity: lineItems[i].quantity,
       });
     }
   }

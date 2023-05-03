@@ -3,6 +3,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../store';
 import { Link } from 'react-router-dom';
 
+import { Card, CardContent, CardMedia, Typography } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
+
 const Products = () => {
   const { products } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -30,46 +33,71 @@ const Products = () => {
 
   return (
     <div>
-      <h1>Products</h1>
+      <Typography variant='h4'>Products</Typography>
       <form onSubmit={(e) => e.preventDefault()}>
         <input
-          type="text"
-          placeholder="Search Products"
+          type='text'
+          placeholder='Search Products'
           value={searchTerm}
           onChange={handleSearchChange}
         />
       </form>
-      <ul>
+      <Grid
+        container
+        spacing={2}
+      >
         {filteredProducts.map((product) => {
           const quantity = quantities[product.id] || 0;
           return (
-            <li key={product.id}>
-              <h2>{product.name}</h2>
-              <h3>${product.price}</h3>
-              <h4>{product.description}</h4>
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleAddToCart(product);
-                }}
+            <Grid
+              xs={6}
+              sm={4}
+              md={3}
+              key={product.id}
+            >
+              <Card
+                variant='outlined'
+                sx={{ maxWidth: 325, textAlign: 'center' }}
               >
-                <input
-                  type="number"
-                  name={`quantity-${product.id}`}
-                  min="0"
-                  max="10"
-                  value={quantity}
-                  onChange={(ev) =>
-                    handleQuantityChange(product.id, Number(ev.target.value))
-                  }
-                />
-                <button type="submit">Add to Cart</button>
-              </form>
-              <Link to={`/products/${product.id}`}><img src={product.imgUrl} /></Link>
-            </li>
+                <CardContent>
+                  <Typography variant='h5'>{product.name}</Typography>
+                  <Typography variant='subtitle1'>${product.price}</Typography>
+                  <Typography variant='body2'>{product.description}</Typography>
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      handleAddToCart(product);
+                    }}
+                  >
+                    <input
+                      type='number'
+                      name={`quantity-${product.id}`}
+                      min='0'
+                      max='10'
+                      value={quantity}
+                      onChange={(ev) =>
+                        handleQuantityChange(
+                          product.id,
+                          Number(ev.target.value)
+                        )
+                      }
+                    />
+                    <button type='submit'>Add to Cart</button>
+                  </form>
+                </CardContent>
+                <Link to={`/products/${product.id}`}>
+                  <CardMedia
+                    sx={{ margin: 0 }}
+                    component='img'
+                    image={product.imgUrl}
+                    title='random pet'
+                  />
+                </Link>
+              </Card>
+            </Grid>
           );
         })}
-      </ul>
+      </Grid>
     </div>
   );
 };

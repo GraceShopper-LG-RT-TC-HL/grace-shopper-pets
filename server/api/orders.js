@@ -35,6 +35,7 @@ app.post('/cart', async (req, res, next) => {
 app.post('/from_local_cart', async (req, res, next) => {
   try {
     const user = await User.findByToken(req.headers.authorization);
+    console.log(req.body);
     res.send(await user.addFromGuestCart(req.body));
   } catch (ex) {
     next(ex);
