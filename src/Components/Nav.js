@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../store';
 import {
   AppBar,
   Container,
@@ -17,15 +19,57 @@ import {
 
 import MenuIcon from '@mui/icons-material/Menu';
 
-const Nav = ({ pages, accountPages }) => {
+const Nav = () => {
+  const { auth, cart } = useSelector((state) => state);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const [pages, setPages] = useState([]);
+  const [accPages, setAccPages] = useState([]);
+  const dispatch = useDispatch();
+  let totalQuantity = 0;
+  cart.lineItems.forEach((lineItem) => (totalQuantity += lineItem.quantity));
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
+  useEffect(() => {
+    if (auth.id && auth.isAdmin) {
+      setPages([
+        { name: 'Home', link: '/' },
+        { name: 'Products', link: '/products' },
+      ]);
+      setAccPages([{ name: 'Profile', link: '/profile' }]);
+    } else if (auth.id && !auth.isAdmin) {
+      setPages([
+        { name: 'Home', link: '/' },
+        { name: 'Products', link: '/products' },
+        { name: 'Orders', link: '/orders' },
+        { name: `Cart (${totalQuantity})`, link: '/cart' },
+      ]);
+      setAccPages([{ name: 'Profile', link: '/profile' }]);
+    } else {
+      setPages([
+        { name: 'Home', link: '/' },
+        { name: 'Products', link: '/products' },
+        { name: 'Cart', link: '/cart' },
+      ]);
+      setAccPages([{ name: 'Login', link: '/login' }]);
+    }
+  }, [auth]);
+
+  useEffect(() => {
+    setPages(
+      pages.map((page) => {
+        if (page.name.includes('Cart')) {
+          return { name: `Cart (${totalQuantity})`, link: '/cart' };
+        }
+        return page;
+      })
+    );
+  }, [cart]);
+
+  const handleOpenNavMenu = (ev) => {
+    setAnchorElNav(ev.currentTarget);
   };
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
+  const handleOpenUserMenu = (ev) => {
+    setAnchorElUser(ev.currentTarget);
   };
 
   const handleCloseNavMenu = () => {
@@ -35,8 +79,6 @@ const Nav = ({ pages, accountPages }) => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
-  console.log(accountPages);
 
   return (
     <AppBar position='static'>
@@ -90,9 +132,10 @@ const Nav = ({ pages, accountPages }) => {
             </Menu>
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'flex' } }}>
-            {pages.map((page) => {
+            {pages.map((page, _idx) => {
               return (
                 <Button
+                  key={_idx}
                   component={RouterLink}
                   sx={{ my: 2, color: 'white', display: 'block' }}
                   to={page.link}
@@ -108,7 +151,13 @@ const Nav = ({ pages, accountPages }) => {
                 onClick={handleOpenUserMenu}
                 sx={{ p: 0 }}
               >
-                <Avatar src='broken-image.jpg' />
+                <Avatar
+                  src={
+                    auth.id
+                      ? auth.imgUrl
+                      : 'https://avatar-management--avatars.us-west-2.prod.public.atl-paas.net/default-avatar.png'
+                  }
+                />
               </IconButton>
             </Tooltip>
             <Menu
@@ -127,14 +176,31 @@ const Nav = ({ pages, accountPages }) => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {accountPages.map((page, _idx) => (
+              {accPages.map((page, _idx) => (
                 <MenuItem
                   key={_idx}
                   onClick={handleCloseUserMenu}
                 >
-                  <Typography textAlign='center'>{page.name}</Typography>
+                  <Link
+                    component={RouterLink}
+                    underline='none'
+                    to={page.link}
+                  >
+                    {page.name}
+                  </Link>
                 </MenuItem>
               ))}
+              {!!auth.id && (
+                <MenuItem onClick={handleCloseUserMenu}>
+                  <Link
+                    component='button'
+                    underline='none'
+                    onClick={() => dispatch(logout())}
+                  >
+                    Logout
+                  </Link>
+                </MenuItem>
+              )}
             </Menu>
           </Box>
         </Toolbar>

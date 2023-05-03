@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
-import { Link as RouterLink, Routes, Route } from 'react-router-dom';
-import Home from './Home';
+import { Routes, Route } from 'react-router-dom';
 import Login from './Login';
 import Cart from './Cart';
 import Profile from './Profile';
@@ -28,16 +27,8 @@ import {
 } from '../store';
 
 const App = () => {
-  const { auth, cart } = useSelector((state) => state);
+  const { auth } = useSelector((state) => state);
   const dispatch = useDispatch();
-  const pages = [
-    { name: 'Home', link: '/' },
-    { name: 'Products', link: '/products' },
-    { name: 'Cart', link: '/cart' },
-  ];
-  const accountPages = [{ name: 'Login', link: '/login' }];
-  let totalQuantity = 0;
-  cart.lineItems.forEach((lineItem) => (totalQuantity += lineItem.quantity));
 
   useEffect(() => {
     dispatch(loginWithToken());
@@ -58,40 +49,14 @@ const App = () => {
     dispatch(fetchProducts());
   }, []);
 
-  const handleNavBar = () => {
-    if (auth.id && auth.isAdmin) {
-      /*return (
-        <nav>
-          <Link to='/'>Home</Link>
-          <Link to='/products'>Products</Link>
-        </nav>
-      );*/
-    } else if (auth.id && !auth.isAdmin) {
-      /*return (
-        <nav>
-          <Link to='/'>Home</Link>
-          <Link to='/products'>Products</Link>
-          <Link to='/orders'>Orders</Link>
-          <Link to='/cart'>Cart ({totalQuantity})</Link>
-        </nav>
-      );*/
-    } else {
-      return;
-    }
-  };
-
   return (
     <div>
-      {/*<Typography variant='h3'>Acme Shopping</Typography>*/}
+      <Nav />
+      <Typography variant='h3'>Acme Shopping</Typography>
       {auth.id ? (
         ''
       ) : (
         <div>
-          <Nav
-            pages={pages}
-            accountPages={accountPages}
-          />
-          <Typography variant='h3'>Acme Shopping</Typography>
           <Routes>
             <Route
               path='/login'
@@ -116,7 +81,6 @@ const App = () => {
       )}
       {!!auth.id && !auth.isAdmin && (
         <div>
-          {handleNavBar()}
           <Routes>
             <Route
               path='/profile'
@@ -147,7 +111,6 @@ const App = () => {
       )}
       {!!auth.id && auth.isAdmin && (
         <div>
-          {handleNavBar()}
           <Routes>
             <Route
               path='/profile'
