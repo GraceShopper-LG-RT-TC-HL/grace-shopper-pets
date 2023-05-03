@@ -4,20 +4,25 @@ import { useParams } from 'react-router';
 import { createReview } from '../store';
 import { useNavigate } from 'react-router-dom';
 
-const AddReview = ({product}) => {
+const AddReview = () => {
   const { products, auth } = useSelector((state) => state);
-  const { id } = useParams(); //orderId
+  const { id } = useParams(); 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log('id: ', id)
-  console.log('prop product: ', product);
-  console.log('prop product.id: ', product.id);
-  console.log('auth.id: ', auth.id);
+
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [rating, setRating] = useState(5);
-  //const _product = products.find((p) => p.id === product.id);
-  //console.log('rating')
+
+  const product = products.find((p) => p.id === id);
+  
+  if (!products || !products.length) {
+    return <div>Loading...</div>;
+  }
+
+  if (!product) {
+    return <div>Product not found.</div>;
+  }
 
   const create = (ev) => {
     ev.preventDefault();
@@ -44,7 +49,6 @@ const AddReview = ({product}) => {
       </form>
     </div>
     );
-  
 };
 
 export default AddReview;
