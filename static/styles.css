@@ -22,13 +22,6 @@ nav {
   justify-content: space-around;
 }
 
-ul {
-  list-style-type: none;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-}
-
 li {
   margin: 1rem;
 }

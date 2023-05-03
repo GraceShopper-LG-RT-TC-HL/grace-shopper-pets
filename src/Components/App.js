@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { Link as RouterLink, Routes, Route } from 'react-router-dom';
 import Home from './Home';
 import Login from './Login';
 import Cart from './Cart';
@@ -10,6 +11,11 @@ import Product from './Product';
 import ControlPanel from './ControlPanel';
 import GuestCart from './GuestCart';
 import AddReview from './AddReview';
+import Nav from './Nav';
+
+import { Typography } from '@mui/material';
+
+import MenuIcon from '@mui/icons-material/Menu';
 
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -21,11 +27,15 @@ import {
   fetchCoupons,
 } from '../store';
 
-import { Link, Routes, Route } from 'react-router-dom';
-
 const App = () => {
   const { auth, cart } = useSelector((state) => state);
   const dispatch = useDispatch();
+  const pages = [
+    { name: 'Home', link: '/' },
+    { name: 'Products', link: '/products' },
+    { name: 'Cart', link: '/cart' },
+  ];
+  const accountPages = [{ name: 'Login', link: '/login' }];
   let totalQuantity = 0;
   cart.lineItems.forEach((lineItem) => (totalQuantity += lineItem.quantity));
 
@@ -48,24 +58,57 @@ const App = () => {
     dispatch(fetchProducts());
   }, []);
 
+  const handleNavBar = () => {
+    if (auth.id && auth.isAdmin) {
+      /*return (
+        <nav>
+          <Link to='/'>Home</Link>
+          <Link to='/products'>Products</Link>
+        </nav>
+      );*/
+    } else if (auth.id && !auth.isAdmin) {
+      /*return (
+        <nav>
+          <Link to='/'>Home</Link>
+          <Link to='/products'>Products</Link>
+          <Link to='/orders'>Orders</Link>
+          <Link to='/cart'>Cart ({totalQuantity})</Link>
+        </nav>
+      );*/
+    } else {
+      return;
+    }
+  };
+
   return (
     <div>
-      <h1>Acme Shopping</h1>
-      <Home />
+      {/*<Typography variant='h3'>Acme Shopping</Typography>*/}
       {auth.id ? (
         ''
       ) : (
         <div>
-          <nav>
-            <Link to="/">Home</Link>
-            <Link to="/products">Products</Link>
-            <Link to="/cart">Cart</Link>
-          </nav>
+          <Nav
+            pages={pages}
+            accountPages={accountPages}
+          />
+          <Typography variant='h3'>Acme Shopping</Typography>
           <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/cart" element={<GuestCart />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/products/:id" element={<Product />} />
+            <Route
+              path='/login'
+              element={<Login />}
+            />
+            <Route
+              path='/cart'
+              element={<GuestCart />}
+            />
+            <Route
+              path='/products'
+              element={<Products />}
+            />
+            <Route
+              path='/products/:id'
+              element={<Product />}
+            />
             {/*<Route path="/products/:id/reviews" element={<Reviews />} />*/}
             {/*<Route path="/products/:id/reviews/new" element={<AddReview />}/>*/}
           </Routes>
@@ -73,33 +116,55 @@ const App = () => {
       )}
       {!!auth.id && !auth.isAdmin && (
         <div>
-          <nav>
-            <Link to="/">Home</Link>
-            <Link to="/products">Products</Link>
-            <Link to="/orders">Orders</Link>
-            <Link to="/cart">Cart ({totalQuantity})</Link>
-          </nav>
+          {handleNavBar()}
           <Routes>
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/cart" element={<Cart />} />
-            <Route path="/products" element={<Products />} />
-            <Route path="/orders" element={<Orders />} />
-            <Route path="/orders/:id" element={<Order />} />
-            <Route path='/products/:id'element={<Product />} />
+            <Route
+              path='/profile'
+              element={<Profile />}
+            />
+            <Route
+              path='/cart'
+              element={<Cart />}
+            />
+            <Route
+              path='/products'
+              element={<Products />}
+            />
+            <Route
+              path='/orders'
+              element={<Orders />}
+            />
+            <Route
+              path='/orders/:id'
+              element={<Order />}
+            />
+            <Route
+              path='/products/:id'
+              element={<Product />}
+            />
           </Routes>
         </div>
       )}
       {!!auth.id && auth.isAdmin && (
         <div>
-          <nav>
-            <Link to="/">Home</Link>
-            <Link to="/products">Products</Link>
-          </nav>
+          {handleNavBar()}
           <Routes>
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/" element={<ControlPanel />} />
-            <Route path="/products" element={<Products />} />
-            <Route path='/products/:id'element={<Product />} />
+            <Route
+              path='/profile'
+              element={<Profile />}
+            />
+            <Route
+              path='/'
+              element={<ControlPanel />}
+            />
+            <Route
+              path='/products'
+              element={<Products />}
+            />
+            <Route
+              path='/products/:id'
+              element={<Product />}
+            />
           </Routes>
         </div>
       )}
