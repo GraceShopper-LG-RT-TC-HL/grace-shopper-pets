@@ -4,6 +4,7 @@ import { addToCart } from '../store';
 import { Link } from 'react-router-dom';
 
 import { Card, CardContent, CardMedia, Typography } from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
 
 const Products = () => {
   const { products } = useSelector((state) => state);
@@ -41,11 +42,19 @@ const Products = () => {
           onChange={handleSearchChange}
         />
       </form>
-      <ul>
+      <Grid
+        container
+        spacing={2}
+      >
         {filteredProducts.map((product) => {
           const quantity = quantities[product.id] || 0;
           return (
-            <li key={product.id}>
+            <Grid
+              xs={6}
+              sm={4}
+              md={3}
+              key={product.id}
+            >
               <Card
                 variant='outlined'
                 sx={{ maxWidth: 325, textAlign: 'center' }}
@@ -85,10 +94,10 @@ const Products = () => {
                   />
                 </Link>
               </Card>
-            </li>
+            </Grid>
           );
         })}
-      </ul>
+      </Grid>
     </div>
   );
 };
