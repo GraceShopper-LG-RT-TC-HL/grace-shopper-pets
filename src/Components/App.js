@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Login from './Login';
 import Cart from './Cart';
@@ -29,6 +29,7 @@ const App = () => {
   const { auth } = useSelector((state) => state);
   const dispatch = useDispatch();
   const location = useLocation();
+  const prevAuth = useRef({});
 
   useEffect(() => {
     dispatch(loginWithToken());
@@ -36,8 +37,6 @@ const App = () => {
 
   useEffect(() => {
     if (auth.id) {
-      dispatch(transferGuestCart());
-      dispatch(fetchCart());
       dispatch(fetchOrders());
       dispatch(fetchCoupons());
     }
@@ -45,8 +44,22 @@ const App = () => {
 
   useEffect(() => {
     dispatch(fetchProducts());
-    dispatch(fetchCart());
   }, []);
+
+  useEffect(() => {
+    if (!prevAuth.current.id && auth.id) {
+      console.log('logged in');
+      dispatch(transferGuestCart());
+    }
+    if (prevAuth.current.id && !auth.id) {
+      console.log('logged out');
+      dispatch(fetchCart());
+    }
+  }, [auth]);
+
+  useEffect(() => {
+    prevAuth.current = auth;
+  });
 
   console.log(location);
 
