@@ -2,6 +2,19 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useParams, Link } from 'react-router-dom';
 import AddReview from './AddReview';
+import {
+  Typography,
+  List,
+  ListItem,
+  Card,
+  CardMedia,
+  CardContent,
+  Button,
+  Stack,
+  Divider,
+} from '@mui/material';
+
+import Grid from '@mui/material/Unstable_Grid2';
 
 const Order = () => {
   const { orders, products } = useSelector((state) => state);
@@ -25,22 +38,59 @@ const Order = () => {
           return total + product.price * lineItem.quantity;
         }, 0)}
       </h3>
-      <ul>
+      <List
+        disablePadding
+        sx={{ alignContent: 'center' }}
+      >
         {order.lineItems.map((lineItem) => {
           const product = products.find((p) => p.id === lineItem.productId);
           return (
-            <li key={lineItem.id}>
-              Product Name: {product.name}, Price: ${product.price}, Quantity:{' '}
-              {lineItem.quantity}
-              <br />
-              <Link to={`/products/${product.id}/reviews/new`}><button>Leave a Review</button></Link>
-              
-              <img src={product.imgUrl} />
-            </li>
+            <ListItem
+              sx={{ justifyContent: 'center' }}
+              disablePadding
+              key={lineItem.id}
+            >
+              <Card
+                variant='outlined'
+                sx={{ textAlign: 'center' }}
+              >
+                <Stack
+                  direction='row'
+                  divider={
+                    <Divider
+                      orientation='vertical'
+                      variant='middle'
+                      flexItem
+                    />
+                  }
+                  justifyContent='space-around'
+                >
+                  <CardMedia
+                    sx={{ maxWidth: 150, margin: 0 }}
+                    component='img'
+                    image={product.imgUrl}
+                    alt={product.name}
+                  />
+                  <CardContent>
+                    <Typography variant='h6'>{product.name}</Typography>
+                    <Typography variant='subtitle1'>
+                      ${product.price}
+                    </Typography>
+                    <Typography variant='body2'>
+                      {`Quantity: ${lineItem.quantity}`}
+                    </Typography>
+                  </CardContent>
+                  <CardContent>
+                    <Link to={`/products/${product.id}/reviews/new`}>
+                      <Button>Leave a Review</Button>
+                    </Link>
+                  </CardContent>
+                </Stack>
+              </Card>
+            </ListItem>
           );
         })}
-      </ul>
-      
+      </List>
     </div>
   );
 };
