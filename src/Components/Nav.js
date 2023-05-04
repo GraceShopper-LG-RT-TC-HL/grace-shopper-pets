@@ -116,15 +116,19 @@ const Nav = () => {
                   </MenuItem>
                 );
               })}
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Link
-                  component={RouterLink}
-                  underline='none'
-                  to={'/cart'}
-                >
-                  {`Cart (${totalQuantity})`}
-                </Link>
-              </MenuItem>
+              {auth.isAdmin ? (
+                ''
+              ) : (
+                <MenuItem onClick={handleCloseNavMenu}>
+                  <Link
+                    component={RouterLink}
+                    underline='none'
+                    to={'/cart'}
+                  >
+                    {`Cart (${totalQuantity})`}
+                  </Link>
+                </MenuItem>
+              )}
             </Menu>
           </Box>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', sm: 'flex' } }}>
@@ -140,13 +144,17 @@ const Nav = () => {
                 </Button>
               );
             })}
-            <Button
-              component={RouterLink}
-              sx={{ my: 2, color: 'white', display: 'block' }}
-              to={'/cart'}
-            >
-              {`Cart (${totalQuantity})`}
-            </Button>
+            {auth.isAdmin ? (
+              ''
+            ) : (
+              <Button
+                component={RouterLink}
+                sx={{ my: 2, color: 'white', display: 'block' }}
+                to={'/cart'}
+              >
+                {`Cart (${totalQuantity})`}
+              </Button>
+            )}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title='Account settings'>
