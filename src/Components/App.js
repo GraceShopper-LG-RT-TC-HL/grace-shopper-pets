@@ -14,8 +14,6 @@ import Nav from './Nav';
 
 import { Typography } from '@mui/material';
 
-import MenuIcon from '@mui/icons-material/Menu';
-
 import { useSelector, useDispatch } from 'react-redux';
 import {
   loginWithToken,
