@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { createOrder, fetchCart } from '../store';
 import { useNavigate } from 'react-router-dom';
+import { Button } from '@mui/material';
 
 const OrderForm = () => {
   const { cart, orders } = useSelector((state) => state);
@@ -21,7 +22,12 @@ const OrderForm = () => {
 
   return (
     <form onSubmit={handleOrder}>
-      <button>Place your order</button>
+      <Button
+        type='submit'
+        variant='contained'
+      >
+        Place your order
+      </Button>
     </form>
   );
 };
