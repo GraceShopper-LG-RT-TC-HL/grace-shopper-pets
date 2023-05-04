@@ -12,9 +12,9 @@ const Home = () => {
       <div>
         Welcome {auth.id ? auth.username : 'Guest'}!!
         {auth.id ? (
-          <Link to="/profile">Your Profile</Link>
+          <Link to='/profile'>Your Profile</Link>
         ) : (
-          <Link to="/login">Login</Link>
+          <Link to='/login'>Login</Link>
         )}
         {auth.id ? (
           <button onClick={() => dispatch(logout())}>Logout</button>

@@ -20,7 +20,6 @@ const Product = () => {
         constainer
         spacing={1}
         textAlign='center'
-        sx={{}}
       >
         <Grid>
           <Typography variant='h4'>{product.name}</Typography>
