@@ -12,7 +12,7 @@ import AddReview from './AddReview';
 import Nav from './Nav';
 import Home from './Home';
 
-import { Typography } from '@mui/material';
+import { Typography, Divider } from '@mui/material';
 
 import { useSelector, useDispatch } from 'react-redux';
 import {
@@ -67,6 +67,10 @@ const App = () => {
       <Nav />
 
       <Typography variant='h3'>Acme Shopping</Typography>
+      <Divider
+        variant='middle'
+        flexItem
+      />
       {auth.id ? (
         ''
       ) : (

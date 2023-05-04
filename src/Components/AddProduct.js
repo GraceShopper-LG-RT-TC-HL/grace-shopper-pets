@@ -2,6 +2,18 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { createProduct } from '../store';
 
+import {
+  Typography,
+  TextField,
+  Button,
+  IconButton,
+  Avatar,
+  Card,
+  Stack,
+  Divider,
+} from '@mui/material';
+import { Upload, Delete } from '@mui/icons-material';
+
 const AddProduct = () => {
   const [newProduct, setNewProduct] = useState({
     name: '',
@@ -42,51 +54,98 @@ const AddProduct = () => {
 
   return (
     <div>
-      <h2>Add a Product</h2>
+      <Typography variant='h4'>Add a Product</Typography>
       <form onSubmit={create}>
-        <label htmlFor="name">
-          Product name:
-          <input
-            id="name"
-            name="name"
-            value={newProduct.name}
-            onChange={onChange}
-          />
-        </label>
-        <label htmlFor="description">
-          Product description:
-          <input
-            id="description"
-            name="description"
-            value={newProduct.description}
-            onChange={onChange}
-          />
-        </label>
-        <label htmlFor="imgurl2">
-          Product imgUrl:
-          <input
-            id="imgurl2"
-            name="imgUrl"
-            value={imgUrl}
-            onChange={(ev) => setImgUrl(ev.target.value)}
-          />
-        </label>
+        <TextField
+          required
+          margin='dense'
+          label='Product Name'
+          name='name'
+          value={newProduct.name}
+          onChange={onChange}
+        />
+
+        <TextField
+          required
+          margin='dense'
+          label='Product Description'
+          name='description'
+          value={newProduct.description}
+          onChange={onChange}
+        />
+
+        <TextField
+          margin='dense'
+          label='Product Image Url'
+          name='imgUrl'
+          value={imgUrl}
+          onChange={(ev) => setImgUrl(ev.target.value)}
+        />
+
         {/* Images uploaded fail validation since they are not in URL format */}
-        <label htmlFor="imgUrl">
-          Product img Upload:
-          <input id="imgUrl" name="imgUrl" type="file" ref={ref} />
-          <img src={imgUrl} />
-        </label>
-        <label htmlFor="price">
-          Product price:
-          <input
-            id="price"
-            name="price"
-            value={newProduct.price}
-            onChange={onChange}
+        <Card
+          raised
+          sx={{ maxWidth: 200 }}
+        >
+          <Typography
+            variant='h6'
+            align='center'
+          >
+            Product Image
+          </Typography>
+          <Avatar
+            variant='square'
+            src={imgUrl}
+            align='center'
+            sx={{ width: 100, height: 100, margin: 'auto' }}
           />
-        </label>
-        <button>Submit</button>
+          <Stack
+            direction='row'
+            divider={
+              <Divider
+                orientation='vertical'
+                variant='middle'
+                flexItem
+              />
+            }
+            justifyContent='space-around'
+          >
+            <IconButton
+              variant='contained'
+              component='label'
+            >
+              <Upload />
+              <input
+                hidden
+                required
+                id='imgUrl'
+                name='imgUrl'
+                type='file'
+                ref={ref}
+              />
+            </IconButton>
+            <IconButton
+              onClick={() =>
+                setImgUrl(
+                  'https://www.ncenet.com/wp-content/uploads/2020/04/No-image-found.jpg'
+                )
+              }
+            >
+              <Delete />
+            </IconButton>
+          </Stack>
+        </Card>
+
+        <TextField
+          required
+          margin='dense'
+          label='Product Price'
+          name='price'
+          value={newProduct.price}
+          onChange={onChange}
+        />
+
+        <Button type='submit'>Submit</Button>
       </form>
     </div>
   );

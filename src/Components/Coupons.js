@@ -7,6 +7,19 @@ import {
   updateCoupon,
 } from '../store';
 
+import {
+  Typography,
+  TextField,
+  Button,
+  InputAdornment,
+  IconButton,
+  Stack,
+  Divider,
+  Card,
+} from '@mui/material';
+import { EditOutlined, EditOffOutlined, Delete } from '@mui/icons-material';
+import Grid from '@mui/material/Unstable_Grid2';
+
 const Coupons = () => {
   const { coupons } = useSelector((state) => state);
   const [code, setCode] = useState('');
@@ -48,44 +61,105 @@ const Coupons = () => {
 
   return (
     <div>
-      <h2>{changeForm ? 'Create coupon' : 'Edit Coupon'}</h2>
+      <Typography variant='h4'>
+        {changeForm ? 'Create coupon' : 'Edit Coupon'}
+      </Typography>
       <form onSubmit={changeForm ? create : update}>
-        <label htmlFor="code">
-          Code:
-          <input
-            id="code"
-            value={code}
-            onChange={(ev) => setCode(ev.target.value)}
-          />
-        </label>
-        <label htmlFor="discount">
-          Discount:
-          <input
-            id="discount"
-            value={discount}
-            onChange={(ev) => setDiscount(ev.target.value)}
-          />
-          %OFF
-        </label>
-        <button>{changeForm ? 'Create' : 'Update'}</button>
-        {changeForm ? (
-          ''
-        ) : (
-          <button onClick={() => setChangeForm(true)}>Cancel</button>
-        )}
+        <TextField
+          required
+          margin='dense'
+          label='Code'
+          value={code}
+          onChange={(ev) => setCode(ev.target.value)}
+        />
+
+        <TextField
+          required
+          margin='dense'
+          label='Discount'
+          value={discount}
+          onChange={(ev) => setDiscount(ev.target.value)}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position='end'>{'% OFF'}</InputAdornment>
+            ),
+          }}
+        />
+        <Stack
+          direction='row'
+          divider={
+            <Divider
+              orientation='vertical'
+              variant='middle'
+              flexItem
+            />
+          }
+          justifyContent='space-around'
+        >
+          <Button type='submit'>{changeForm ? 'Create' : 'Update'}</Button>
+          {changeForm ? (
+            ''
+          ) : (
+            <Button
+              onClick={() => {
+                setChangeForm(true);
+                setCode('');
+                setDiscount('');
+              }}
+            >
+              Cancel
+            </Button>
+          )}
+        </Stack>
       </form>
-      <ul>
+      <Grid
+        container
+        spacing={1}
+      >
         {coupons.map((coupon) => {
           return (
-            <li key={coupon.id}>
-              <h4>{coupon.code}</h4>
-              <h4>{coupon.discount}%OFF</h4>
-              <button onClick={() => edit(coupon)}>Edit</button>
-              <button onClick={() => destroy(coupon.id)}>Remove</button>
-            </li>
+            <Grid key={coupon.id}>
+              <Card
+                raised
+                align='center'
+                sx={{ minWidth: 150 }}
+              >
+                <Typography variant='h6'>{coupon.code}</Typography>
+                <Typography variant='body2'>{`${coupon.discount}% OFF`}</Typography>
+                <Stack
+                  direction='row'
+                  divider={
+                    <Divider
+                      orientation='vertical'
+                      variant='middle'
+                      flexItem
+                    />
+                  }
+                  justifyContent='space-around'
+                >
+                  <IconButton
+                    onClick={
+                      changeForm
+                        ? () => edit(coupon)
+                        : () => {
+                            setChangeForm(true);
+                            setCode('');
+                            setDiscount('');
+                          }
+                    }
+                  >
+                    {changeForm ? <EditOutlined /> : <EditOffOutlined />}
+                  </IconButton>
+                  <IconButton onClick={() => destroy(coupon.id)}>
+                    {' '}
+                    <Delete />{' '}
+                  </IconButton>
+                </Stack>
+              </Card>
+            </Grid>
           );
         })}
-      </ul>
+      </Grid>
     </div>
   );
 };

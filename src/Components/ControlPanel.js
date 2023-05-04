@@ -2,12 +2,27 @@ import React from 'react';
 import AddProduct from './AddProduct';
 import Coupons from './Coupons';
 
+import Grid from '@mui/material/Unstable_Grid2';
+
 const ControlPanel = () => {
   return (
-    <div id="cpanel">
-      <AddProduct />
-      <Coupons />
-    </div>
+    <Grid
+      container
+      spacing={5}
+    >
+      <Grid
+        xs={12}
+        sm={6}
+      >
+        <AddProduct />
+      </Grid>
+      <Grid
+        xs={12}
+        sm={6}
+      >
+        <Coupons />
+      </Grid>
+    </Grid>
   );
 };
 

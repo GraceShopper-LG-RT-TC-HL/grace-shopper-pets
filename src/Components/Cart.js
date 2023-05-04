@@ -47,15 +47,18 @@ const Cart = () => {
     <div>
       <h1>Cart</h1>
       <ul>
-        {cart.lineItems.map((lineItem) => {
+        {cart.lineItems.map((lineItem, _idx) => {
           const product = lineItem.product;
           const quantity = quantities[product.id] || lineItem.quantity;
           return (
-            <li key={lineItem.id}>
+            <li key={lineItem.id || _idx}>
               <h2>{product.name}</h2>
               <h3>${product.price}</h3>
               <h4>Quantity: {quantity}</h4>
-              <img src={product.imgUrl} alt={product.name} />
+              <img
+                src={product.imgUrl}
+                alt={product.name}
+              />
               <button onClick={() => dispatch(removeFromCart(lineItem))}>
                 Remove
               </button>
@@ -67,10 +70,10 @@ const Cart = () => {
                 }}
               >
                 <input
-                  type="number"
+                  type='number'
                   name={`quantity-${product.id}`}
-                  min="0"
-                  max="10"
+                  min='0'
+                  max='10'
                   value={quantity}
                   onChange={(ev) =>
                     handleQuantityChange(product.id, Number(ev.target.value))
@@ -82,10 +85,10 @@ const Cart = () => {
         })}
       </ul>
       <form onSubmit={(e) => e.preventDefault()}>
-        <label htmlFor="couponCode">Coupon code:</label>
+        <label htmlFor='couponCode'>Coupon code:</label>
         <input
-          type="text"
-          id="couponCode"
+          type='text'
+          id='couponCode'
           value={couponCode}
           onChange={handleCouponCodeChange}
         />
