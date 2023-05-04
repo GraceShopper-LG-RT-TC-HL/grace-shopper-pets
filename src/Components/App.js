@@ -11,6 +11,7 @@ import ControlPanel from './ControlPanel';
 import GuestCart from './GuestCart';
 import AddReview from './AddReview';
 import Nav from './Nav';
+import Home from './Home';
 
 import { Typography } from '@mui/material';
 
@@ -52,6 +53,7 @@ const App = () => {
   return (
     <div>
       <Nav />
+
       <Typography variant='h3'>Acme Shopping</Typography>
       {auth.id ? (
         ''
