@@ -65,7 +65,7 @@ const Products = () => {
         spacing={2}
       >
         {filteredProducts.map((product) => {
-          const quantity = quantities[product.id] || 1;
+          const quantity = quantities[product.id] || 0;
           return (
             <Grid
               xs={6}
@@ -90,7 +90,7 @@ const Products = () => {
                     <TextField
                       type='number'
                       name={`quantity-${product.id}`}
-                      min='1'
+                      min='0'
                       max='10'
                       margin='dense'
                       size='small'
