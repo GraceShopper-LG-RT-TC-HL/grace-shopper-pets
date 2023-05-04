@@ -8,9 +8,9 @@ const cart = (state = { lineItems: [] }, action) => {
 };
 
 export const fetchCart = () => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     const token = window.localStorage.getItem('token');
-    if (token) {
+    if (getState().auth.id) {
       const response = await axios.get('/api/orders/cart', {
         headers: {
           authorization: token,
@@ -62,9 +62,9 @@ const addToGuestCart = (dispatch, line) => {
 };
 
 export const addToCart = (product, quantity) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     const token = window.localStorage.getItem('token');
-    if (token) {
+    if (getState().auth.id) {
       const response = await axios.post(
         '/api/orders/cart',
         { product, quantity },
@@ -82,9 +82,9 @@ export const addToCart = (product, quantity) => {
 };
 
 export const removeFromCart = (lineItem) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     const token = window.localStorage.getItem('token');
-    if (token) {
+    if (getState().auth.id) {
       const response = await axios.put('/api/orders/cart', lineItem, {
         headers: {
           authorization: token,
@@ -106,9 +106,9 @@ export const removeFromCart = (lineItem) => {
 };
 
 export const updateCart = ({ product, quantity }) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     const token = window.localStorage.getItem('token');
-    if (token) {
+    if (getState().auth.id) {
       const response = await axios.put(
         '/api/orders/cart/update',
         { product, quantity },
