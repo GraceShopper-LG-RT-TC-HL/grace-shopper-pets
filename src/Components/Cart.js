@@ -3,6 +3,19 @@ import { useSelector, useDispatch } from 'react-redux';
 import { removeFromCart, updateCart } from '../store';
 import OrderForm from './OrderForm';
 
+import {
+  Typography,
+  TextField,
+  Button,
+  Stack,
+  Divider,
+  Card,
+  CardMedia,
+  CardContent,
+  List,
+  ListItem,
+} from '@mui/material';
+
 const Cart = () => {
   const { cart, coupons } = useSelector((state) => state);
   const dispatch = useDispatch();
@@ -45,55 +58,104 @@ const Cart = () => {
 
   return (
     <div>
-      <h1>Cart</h1>
-      <ul>
+      <Typography
+        textAlign='center'
+        variant='h4'
+      >
+        Cart
+      </Typography>
+      <List
+        disablePadding
+        sx={{ alignContent: 'center' }}
+      >
         {cart.lineItems.map((lineItem, _idx) => {
           const product = lineItem.product;
           const quantity = quantities[product.id] || lineItem.quantity;
           return (
-            <li key={lineItem.id || _idx}>
-              <h2>{product.name}</h2>
-              <h3>${product.price}</h3>
-              <h4>Quantity: {quantity}</h4>
-              <img
-                src={product.imgUrl}
-                alt={product.name}
-              />
-              <button onClick={() => dispatch(removeFromCart(lineItem))}>
-                Remove
-              </button>
-
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleAddToCart(product);
-                }}
+            <ListItem
+              sx={{ justifyContent: 'center' }}
+              disablePadding
+              key={lineItem.id || _idx}
+            >
+              <Card
+                variant='outlined'
+                sx={{ textAlign: 'center', width: 375 }}
               >
-                <input
-                  type='number'
-                  name={`quantity-${product.id}`}
-                  min='0'
-                  max='10'
-                  value={quantity}
-                  onChange={(ev) =>
-                    handleQuantityChange(product.id, Number(ev.target.value))
+                <Stack
+                  direction='row'
+                  divider={
+                    <Divider
+                      orientation='vertical'
+                      variant='middle'
+                      flexItem
+                    />
                   }
-                />
-              </form>
-            </li>
+                  justifyContent='space-around'
+                >
+                  <CardMedia
+                    sx={{ maxWidth: 150, margin: 0 }}
+                    component='img'
+                    image={product.imgUrl}
+                    alt={product.name}
+                  />
+                  <CardContent>
+                    <Typography variant='h6'>{product.name}</Typography>
+                    <Typography variant='subtitle1'>
+                      ${product.price}
+                    </Typography>
+                    <Typography variant='body2'>
+                      Quantity: {quantity}
+                    </Typography>
+                  </CardContent>
+                  <CardContent>
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        handleAddToCart(product);
+                      }}
+                    >
+                      <TextField
+                        type='number'
+                        name={`quantity-${product.id}`}
+                        min='0'
+                        max='10'
+                        margin='dense'
+                        size='small'
+                        label='Quantity'
+                        value={quantity}
+                        onChange={(ev) =>
+                          handleQuantityChange(
+                            product.id,
+                            Number(ev.target.value)
+                          )
+                        }
+                        sx={{ maxWidth: 95 }}
+                      />
+                    </form>
+                    <Button
+                      variant='contained'
+                      onClick={() => dispatch(removeFromCart(lineItem))}
+                    >
+                      Remove
+                    </Button>
+                  </CardContent>
+                </Stack>
+              </Card>
+            </ListItem>
           );
         })}
-      </ul>
+      </List>
       <form onSubmit={(e) => e.preventDefault()}>
-        <label htmlFor='couponCode'>Coupon code:</label>
-        <input
+        <TextField
           type='text'
           id='couponCode'
+          label='Coupon code'
+          margin='dense'
           value={couponCode}
           onChange={handleCouponCodeChange}
         />
       </form>
-      <h2>Total Price: ${getTotalPrice()}</h2>
+      <Typography variant='h5'>Total Price: ${getTotalPrice()}</Typography>
       <OrderForm />
     </div>
   );
