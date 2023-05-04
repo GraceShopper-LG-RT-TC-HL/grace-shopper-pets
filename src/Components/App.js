@@ -67,7 +67,6 @@ const App = () => {
   return (
     <div>
       <Nav />
-
       <Typography variant='h3'>Acme Shopping</Typography>
       <Divider
         variant='middle'
@@ -78,6 +77,10 @@ const App = () => {
       ) : (
         <div>
           <Routes>
+            <Route
+              path='/'
+              element={<Home />}
+            />
             <Route
               path='/login'
               element={<Login />}
