@@ -23,6 +23,7 @@ export const fetchCart = () => {
         dispatch({ type: 'SET_CART', cart: guestCart });
       } else {
         window.localStorage.setItem('cart', JSON.stringify({ lineItems: [] }));
+        dispatch({ type: 'SET_CART', cart: { lineItems: [] } });
       }
     }
   };
