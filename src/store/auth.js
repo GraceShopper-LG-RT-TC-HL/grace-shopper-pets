@@ -14,12 +14,16 @@ export const logout = () => {
 export const loginWithToken = () => {
   return async (dispatch) => {
     const token = window.localStorage.getItem('token');
-    const response = await axios.get('/api/auth', {
-      headers: {
-        authorization: token,
-      },
-    });
-    dispatch({ type: 'SET_AUTH', auth: response.data });
+    if (token) {
+      const response = await axios.get('/api/auth', {
+        headers: {
+          authorization: token,
+        },
+      });
+      dispatch({ type: 'SET_AUTH', auth: response.data });
+    } else {
+      throw 'no token';
+    }
   };
 };
 

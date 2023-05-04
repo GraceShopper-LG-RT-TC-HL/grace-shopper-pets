@@ -31,7 +31,9 @@ const App = () => {
   const prevAuth = useRef({});
 
   useEffect(() => {
-    dispatch(loginWithToken());
+    dispatch(loginWithToken()).catch((ex) => {
+      dispatch(fetchCart());
+    });
   }, []);
 
   useEffect(() => {

@@ -3,8 +3,17 @@ import { useSelector, useDispatch } from 'react-redux';
 import { addToCart } from '../store';
 import { Link } from 'react-router-dom';
 
-import { Card, CardContent, CardMedia, Typography } from '@mui/material';
+import {
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+  TextField,
+  Button,
+  InputAdornment,
+} from '@mui/material';
 import Grid from '@mui/material/Unstable_Grid2';
+import { Search } from '@mui/icons-material';
 
 const Products = () => {
   const { products } = useSelector((state) => state);
@@ -35,11 +44,20 @@ const Products = () => {
     <div>
       <Typography variant='h4'>Products</Typography>
       <form onSubmit={(e) => e.preventDefault()}>
-        <input
+        <TextField
           type='text'
+          label='Search'
+          size='small'
           placeholder='Search Products'
           value={searchTerm}
           onChange={handleSearchChange}
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position='start'>
+                <Search />
+              </InputAdornment>
+            ),
+          }}
         />
       </form>
       <Grid
@@ -47,7 +65,7 @@ const Products = () => {
         spacing={2}
       >
         {filteredProducts.map((product) => {
-          const quantity = quantities[product.id] || 0;
+          const quantity = quantities[product.id] || 1;
           return (
             <Grid
               xs={6}
@@ -69,11 +87,14 @@ const Products = () => {
                       handleAddToCart(product);
                     }}
                   >
-                    <input
+                    <TextField
                       type='number'
                       name={`quantity-${product.id}`}
-                      min='0'
+                      min='1'
                       max='10'
+                      margin='dense'
+                      size='small'
+                      label='Quantity'
                       value={quantity}
                       onChange={(ev) =>
                         handleQuantityChange(
@@ -82,7 +103,7 @@ const Products = () => {
                         )
                       }
                     />
-                    <button type='submit'>Add to Cart</button>
+                    <Button type='submit'>Add to Cart</Button>
                   </form>
                 </CardContent>
                 <Link to={`/products/${product.id}`}>
