@@ -14,8 +14,6 @@ import {
   Divider,
 } from '@mui/material';
 
-import Grid from '@mui/material/Unstable_Grid2';
-
 const Order = () => {
   const { orders, products } = useSelector((state) => state);
   const { id } = useParams();
@@ -26,18 +24,18 @@ const Order = () => {
   }
   return (
     <div>
-      <h1>Order Details</h1>
-      <p>
+      <Typography variant='h4'>Order Details</Typography>
+      <Typography variant='subtitle1'>
         Order #: {order.id} <br />
         Date: {order.createdAt.slice(0, 10)};
-      </p>
-      <h3>
+      </Typography>
+      <Typography variant='h6'>
         Total: $
         {order.lineItems.reduce((total, lineItem) => {
           const product = products.find((p) => p.id === lineItem.productId);
           return total + product.price * lineItem.quantity;
         }, 0)}
-      </h3>
+      </Typography>
       <List
         disablePadding
         sx={{ alignContent: 'center' }}
