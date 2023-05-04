@@ -8,7 +8,6 @@ import Order from './Order';
 import Products from './Products';
 import Product from './Product';
 import ControlPanel from './ControlPanel';
-import GuestCart from './GuestCart';
 import AddReview from './AddReview';
 import Nav from './Nav';
 import Home from './Home';
@@ -79,7 +78,7 @@ const App = () => {
             />
             <Route
               path='/cart'
-              element={<GuestCart />}
+              element={<Cart />}
             />
             <Route
               path='/products'
