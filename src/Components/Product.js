@@ -17,7 +17,7 @@ const Product = () => {
   return (
     <div>
       <Grid
-        constainer
+        container
         spacing={1}
         textAlign='center'
       >

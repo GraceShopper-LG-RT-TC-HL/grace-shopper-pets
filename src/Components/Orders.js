@@ -1,62 +1,83 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import {
+  Typography,
+  List,
+  ListItem,
+  Card,
+  CardContent,
+  Divider,
+} from '@mui/material';
+import Grid from '@mui/material/Unstable_Grid2';
 
 const Orders = () => {
   const { orders, products } = useSelector((state) => state);
 
   return (
     <div>
-      <h1>Order History</h1>
-      <ul className="order-list">
+      <Typography variant='h4'>Order History</Typography>
+      <List>
         {orders.map((order) => {
           return (
-            <li key={order.id} className="order-item">
-              <Link to={`/orders/${order.id}`} className="order-link">
-                Order ID: {order.id}
-              </Link>
-              <br></br>
-              <span className="order-date">
-                Date: {order.createdAt.slice(0, 10)}
-              </span>
-              <br></br>
-              <span className="order-total">
-                Total: $
-                {order.lineItems.reduce((total, lineItem) => {
-                  const product = products.find(
-                    (p) => p.id === lineItem.productId
-                  );
-                  return total + product.price * lineItem.quantity;
-                }, 0)}
-              </span>
-              <br></br>
-              <ul className="line-item-list">
-                {order.lineItems.map((lineItem) => {
-                  const product = products.find(
-                    (p) => p.id === lineItem.productId
-                  );
-                  return (
-                    <li key={lineItem.id} className="line-item">
-                      <span className="product-name">
-                        Product Name: {product.name}
-                      </span>
-                      <br></br>
-                      <span className="product-quantity">
-                        Quantity: {lineItem.quantity}
-                      </span>
-                      <br></br>
-                      <span className="product-price">
-                        Price: ${product.price}
-                      </span>
-                      <br></br>
-                    </li>
-                  );
-                })}
-              </ul>
-            </li>
+            <ListItem key={order.id}>
+              <Card elevation={6}>
+                <CardContent>
+                  <Typography variant='h6'>
+                    <Link to={`/orders/${order.id}`}>Order ID: {order.id}</Link>
+                  </Typography>
+
+                  <Typography variant='h6'>
+                    Date: {order.createdAt.slice(0, 10)}
+                  </Typography>
+
+                  <Typography variant='h6'>
+                    Total: $
+                    {order.lineItems.reduce((total, lineItem) => {
+                      const product = products.find(
+                        (p) => p.id === lineItem.productId
+                      );
+                      return total + product.price * lineItem.quantity;
+                    }, 0)}
+                  </Typography>
+                </CardContent>
+                <Divider />
+
+                <Grid container>
+                  {order.lineItems.map((lineItem) => {
+                    const product = products.find(
+                      (p) => p.id === lineItem.productId
+                    );
+                    return (
+                      <Grid
+                        xs={4}
+                        sm={3}
+                        md={2}
+                        key={lineItem.id}
+                        textAlign='center'
+                      >
+                        <Card elevation={6}>
+                          <Typography variant='subtitle1'>
+                            {product.name}
+                          </Typography>
+
+                          <Typography variant='body2'>
+                            Quantity: {lineItem.quantity}
+                          </Typography>
+
+                          <Typography variant='body2'>
+                            Price: ${product.price}
+                          </Typography>
+                        </Card>
+                      </Grid>
+                    );
+                  })}
+                </Grid>
+              </Card>
+            </ListItem>
           );
         })}
-      </ul>
+      </List>
     </div>
   );
 };
